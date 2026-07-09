@@ -6,7 +6,7 @@ allowed_root_directories:
   - data
   - programs
   - tests
-  - et
+  - rw
 allowed_root_files:
   - .gitignore
   - CLAUDE.md
@@ -51,7 +51,7 @@ path_rules:
     allow_extensions:
       - ".py"
   - patterns:
-      - "et/**"
+      - "rw/**"
     allow_extensions:
       - ".yaml"
     allow_filenames:
