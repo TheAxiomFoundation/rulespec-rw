@@ -1,0 +1,670 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2025-011/excise-duty
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2025-011/excise-duty
+      rationale: |-
+        Law No 011/2025 of 27/05/2025 on excise duty is the primary
+        statute: Article 4 levies the duty on imported products,
+        products manufactured in Rwanda and services supplied in
+        Rwanda at the Annex rates, Article 18 repeals Law No 050/2023
+        of 05/09/2023 and Article 19 brings the law into force on
+        publication (Official Gazette no Special of 29/05/2025). The
+        Annex rows encoded here are the household-consumption surface;
+        the 2023 law's corresponding rows (cigarettes 36 percent plus
+        FRW 130 per pack, local wine 30 percent, and a bottled-water
+        row this law does not carry) governed 1 January to 28 May
+        2025, so effective dating follows this print.
+  summary: |-
+    Law No 011/2025 of 27/05/2025 establishes excise duty on imported
+    products, products manufactured in Rwanda and services supplied
+    in Rwanda at the rates in its Annex (Article 4). Encoded rows:
+    juices (10 percent for at least 30 percent local raw material
+    content; other juices, lemonades, sodas and syrups 39 percent),
+    beers (40 percent local / 65 percent other), wines (40 percent
+    local / 70 percent other on a litre value capped at FRW 40,000),
+    brandies-liquors-whiskies (60 percent local / 70 percent other on
+    a litre value capped at FRW 150,000), other fermented beverages
+    (65 percent) and other local-content alcoholic beverages (30
+    percent), cigarettes (36 percent of the tax-inclusive retail
+    price of a pack of 20 rods plus FRW 230 per pack), cigars (160
+    percent), electronic cigarettes (FRW 30,000 per unit) and
+    cartridges (FRW 24,400 per unit), premium fuel (FRW 183 per
+    litre), gas oil (FRW 150 per litre), lubricants (37 percent),
+    vehicles by engine-capacity and age class (5/10/15 percent),
+    sweets and chewing gums (FRW 322 per kilogramme), chocolates
+    (FRW 1,930 per kilogramme), cosmetics (15 percent), and telephone
+    communications phased 12 percent for the first year following
+    commencement, 14 percent during the second year and 15 percent
+    from the third year (29 May anniversaries). The Annex carries no
+    bottled-water row (the repealed 2023 law taxed it at 10 percent).
+    Compliance provisions (declarations, tax stamps, fines,
+    imprisonment) and the financial-transaction charge row are out of
+    the encoded household surface.
+  deferred_outputs:
+    - output: rw:statutes/law-2025-011/excise-duty/a#related_persons
+      reason: Definition requires representing interpersonal control, family degree, management, control, capital, and company participation relationships not available in the local entity schema.
+    - output: rw:statutes/law-2025-011/excise-duty/b#taxable_product
+      reason: Definition depends on product classification and whether a product is subject to excise duty under the Annex; a complete product taxonomy and HS-code matching relation is outside this encoding.
+    - output: rw:statutes/law-2025-011/excise-duty/c#tax_stamp
+      reason: Definition is documentary and concerns a physical sign affixed to products; no computable output is needed without a product-label entity.
+    - output: rw:statutes/law-2025-011/excise-duty/d#commissioner_general
+      reason: Institutional definition is documentary and does not create an executable amount, rate, or eligibility condition.
+    - output: rw:statutes/law-2025-011/excise-duty/e#taxable_service
+      reason: Definition depends on service taxonomy and Annex-listed service categories; this file encodes the Annex rates but not a full service membership classifier.
+    - output: rw:statutes/law-2025-011/excise-duty/f#tax_administration
+      reason: Institutional definition is documentary and does not create an executable amount, rate, or eligibility condition.
+    - output: rw:statutes/law-2025-011/excise-duty/g#calendar_month
+      reason: Calendar-period definition is structural runtime context rather than an executable legal output.
+    - output: rw:statutes/law-2025-011/excise-duty/h#authorised_officer
+      reason: Definition depends on administrative empowerment and identification facts outside the supported legal computation schema.
+    - output: rw:statutes/law-2025-011/excise-duty/j#factory
+      reason: Definition depends on plant, equipment, and appliance classification facts outside this encoding.
+rules:
+  - name: local_juice_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Juice from fruits, vegetables or other plants whose local raw material content, is at least 30% by weight of its constituents, including water\n\n10%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.10
+
+  - name: other_juice_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other juices from fruits, vegetables or other plants 39%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.39
+
+  - name: lemonade_soda_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Lemonades, sodas and other juices\n\n39%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.39
+
+  - name: flavoured_syrup_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 4
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Flavoured or coloured syrups and other preparations intended to be consumed as beverages after simple dilution with water (in the form of powder or granules)\n\n39%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.39
+
+  - name: local_beer_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 5
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Beer whose local raw material content, excluding water, is at least 70% by weight of its constituents 40%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.40
+
+  - name: other_beer_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 6
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other beers 65%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.65
+
+  - name: local_wine_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Wine whose local raw material content, excluding water, is at least 70% by weight of its constituents 40%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.40
+
+  - name: other_wine_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 8
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other wines 70% of the value of a litre not exceeding FRW 40,000"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.70
+
+  - name: other_wine_litre_value_cap
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 8 (value of a litre cap)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other wines 70% of the value of a litre not exceeding FRW 40,000"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          40000
+
+  - name: local_spirits_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 9
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Brandies, liquors and whiskies whose local raw material content, excluding water, is at least 70% by weight of its constituents\n\n60%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.60
+
+  - name: other_spirits_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 10
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other brandies, liquors and whiskies 70% of the value of a litre not exceeding FRW 150,000"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.70
+
+  - name: other_spirits_litre_value_cap
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 10 (value of a litre cap)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other brandies, liquors and whiskies 70% of the value of a litre not exceeding FRW 150,000"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          150000
+
+  - name: other_fermented_beverage_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 11
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other fermented beverages\n\n65%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.65
+
+  - name: other_local_alcoholic_beverage_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 12
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Other alcoholic beverages with local raw material content\n\n30%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.30
+
+  - name: cigarette_retail_price_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 13
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cigarettes 36% of retail price tax inclusive of a pack of 20 rods plus Frw 230 per pack"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.36
+
+  - name: cigarette_pack_specific_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 13 (specific amount per pack of 20 rods)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cigarettes 36% of retail price tax inclusive of a pack of 20 rods plus Frw 230 per pack"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          230
+
+  - name: cigar_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 14
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cigar and similar products containing tobacco or tobacco substitutes 160%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          1.60
+
+  - name: electronic_cigarette_unit_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 15
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Electronic cigarette\n\nFRW 30,000 per unit"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          30000
+
+  - name: electronic_cigarette_cartridge_unit_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 16
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cartridge with liquid for use in electronic cigarette\n\nFRW 24,400 per unit"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          24400
+
+  - name: premium_fuel_litre_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 17
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Premium (excluding benzene)\n\nFRW 183/litre"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          183
+
+  - name: gas_oil_litre_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 18
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Gas oil\n\nFRW 150/litre"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          150
+
+  - name: lubricant_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 19
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Lubricants or fluids for motor vehicle and machinery maintenance 37%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.37
+
+  - name: small_engine_vehicle_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 20
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Vehicles with an engine capacity of less than 1500 cc or hybrid vehicles which are not more than three years of age from the date of manufacture\n\n5%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.05
+
+  - name: mid_engine_vehicle_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 21
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Vehicles with an engine capacity of between 1500 and 2500 cc or hybrid vehicles which are more than three years of age but not more than eight years of age from the date of manufacture\n\n10%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.10
+
+  - name: large_engine_vehicle_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 22
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Vehicles with an engine capacity above 2500 cc or hybrid vehicles which are more than eight years of age from the date of manufacture\n\n15%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.15
+
+  - name: sweets_chewing_gum_kg_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 23
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Sweets and chewing gums FRW 322/kg"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          322
+
+  - name: chocolate_kg_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 011/2025, Annex item 24
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Chocolates FRW 1,930/kg"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          1930
+
+  - name: cosmetics_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 25
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cosmetics and beauty products 15%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.15
+
+  - name: telephone_communications_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 011/2025, Annex item 26 (12% for the first year following commencement on 29/05/2025, 14% during the second year, 15% from the third year)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Telephone communications 12% for the first year following the date of commencement of this Law."
+          - path: versions[1].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "14% during the second year following the date of commencement of this Law."
+          - path: versions[2].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "15% from the third year following the date of commencement of this Law."
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          0.12
+      - effective_from: '2026-05-29'
+        formula: |-
+          0.14
+      - effective_from: '2027-05-29'
+        formula: |-
+          0.15
+
+  - name: cigarette_excise_duty
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 011/2025, Article 4 at the Annex item 13 rates
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "The excise duty is levied on an imported product, a product manufactured in Rwanda and a service supplied in Rwanda at the corresponding tax rates as indicated in the Annex."
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cigarettes 36% of retail price tax inclusive of a pack of 20 rods plus Frw 230 per pack"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          cigarette_retail_price_rate * max(0, cigarette_retail_value) + cigarette_pack_specific_amount * max(0, cigarette_packs)
+
+  - name: cigar_excise_duty
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 011/2025, Article 4 at the Annex item 14 rate
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Cigar and similar products containing tobacco or tobacco substitutes 160%"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          cigar_rate * max(0, cigar_value)
+
+  - name: premium_fuel_excise_duty
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 011/2025, Article 4 at the Annex item 17 rate
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Premium (excluding benzene)\n\nFRW 183/litre"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          premium_fuel_litre_amount * max(0, premium_fuel_litres)
+
+  - name: gas_oil_excise_duty
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 011/2025, Article 4 at the Annex item 18 rate
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2025-011/excise-duty
+              excerpt: "Gas oil\n\nFRW 150/litre"
+    versions:
+      - effective_from: '2025-05-29'
+        formula: |-
+          gas_oil_litre_amount * max(0, gas_oil_litres)

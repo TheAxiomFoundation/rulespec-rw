@@ -1,0 +1,197 @@
+# Companion fixtures for the Law No 027/2022 lump-sum (presumptive) regime.
+# Annual (calendar-year) cases over CY2025 (RWAMOD RW_2025 validation year);
+# all inside the version window opened by Article 73 commencement (28/10/2022).
+# Hand arithmetic from the verbatim Article 14 micro table and the Article 14
+# small-enterprise 3% rate; RWAMOD is a comparison target, never a source.
+- name: below_micro_floor_no_lump_sum_tax
+  # Turnover under FRW 2,000,000: no micro row applies (band -1), tax 0.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 1500000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: -1
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 0
+
+- name: micro_band0_lower_bound
+  # FRW 2,000,000 is the lower bound of the first micro row: flat FRW 60,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 2000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 0
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 60000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 60000
+
+- name: micro_band0_interior
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 3000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 0
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 60000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 60000
+
+- name: micro_band0_upper_bound
+  # FRW 4,000,000 is the upper bound of the first row (still FRW 60,000);
+  # FRW 4,000,001 begins the next row.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 4000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 0
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 60000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 60000
+
+- name: micro_band1
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 5000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 1
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 120000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 120000
+
+- name: micro_band2
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 8000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 2
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 210000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 210000
+
+- name: micro_band3
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 11000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 3
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 300000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 300000
+
+- name: micro_band3_upper_bound_no_small_enterprise
+  # FRW 12,000,000 is the micro ceiling (flat FRW 300,000); the small band
+  # starts at FRW 12,000,001, so small-enterprise tax is 0 here.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 12000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: 3
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 300000
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 300000
+
+- name: small_enterprise_three_percent
+  # Turnover FRW 15,000,000 in the small band: 3% x 15,000,000 = 450,000;
+  # micro band -1 (above ceiling), so the micro flat amount is 0.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 15000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band: -1
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 450000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 450000
+
+- name: small_enterprise_opt_out_to_real_regime
+  # Same turnover, but the operator opted out to the real regime: no lump-sum
+  # tax is computed here.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 15000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: true
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 0
+
+- name: small_enterprise_upper_bound
+  # FRW 20,000,000 is the top of the small band: 3% x 20,000,000 = 600,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 20000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 600000
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 600000
+
+- name: above_lump_sum_regime
+  # Turnover above FRW 20,000,000 leaves the lump-sum regime (real regime,
+  # not computed here): both components are 0.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.annual_turnover: 25000000
+    rw:statutes/law-2022-027/lump-sum-regime#input.small_enterprise_operator_opted_for_real_regime: false
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax: 0
+    rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax: 0
+
+- name: agricultural_income_fully_exempt
+  # Article 21: activity turnover FRW 8,000,000 <= FRW 12,000,000, fully exempt.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.agricultural_turnover: 8000000
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#taxable_agricultural_income: 0
+
+- name: agricultural_income_partial_over_threshold
+  # Article 21: turnover FRW 15,000,000 exceeds FRW 12,000,000; FRW 12,000,000
+  # is excluded, so taxable agricultural income is 3,000,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2022-027/lump-sum-regime#input.agricultural_turnover: 15000000
+  output:
+    rw:statutes/law-2022-027/lump-sum-regime#taxable_agricultural_income: 3000000

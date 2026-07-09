@@ -1,0 +1,77 @@
+# Companion fixtures for the Law No 048/2023 rental income tax.
+# Annual cases over CY2025 (RWAMOD RW_2025 computes i_rental = 0.5 x gross then
+# the 0/20/30 schedule); inside the version window opened by the Article 60
+# commencement (14/09/2023). Hand arithmetic on GROSS rental income g, with
+# taxable base b = g/2 and the Article 42 bracket schedule; RWAMOD is a
+# comparison target only.
+- name: below_first_threshold_no_tax
+  # g 200,000 -> b 100,000 <= 180,000 -> 0.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 200000
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 100000
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 0
+
+- name: at_zero_band_upper_bound
+  # g 360,000 -> b 180,000 (the top of the 0% band) -> 0.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 360000
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 180000
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 0
+
+- name: middle_band_marginal
+  # g 800,000 -> b 400,000 -> 20% x (400,000 - 180,000) = 44,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 800000
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 400000
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 44000
+
+- name: middle_band_upper_bound
+  # g 2,000,000 -> b 1,000,000 -> 20% x (1,000,000 - 180,000) = 164,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 2000000
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 1000000
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 164000
+
+- name: top_band_marginal
+  # g 2,400,000 -> b 1,200,000 -> 164,000 + 30% x (1,200,000 - 1,000,000)
+  # = 164,000 + 60,000 = 224,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 2400000
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 1200000
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 224000
+
+- name: zero_gross_income
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-048/rental-income-tax#input.gross_rental_income: 0
+  output:
+    rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income: 0
+    rw:statutes/law-2023-048/rental-income-tax#rental_income_tax: 0

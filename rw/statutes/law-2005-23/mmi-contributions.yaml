@@ -1,0 +1,149 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/statute/law-2005-23/military-medical-insurance-2005
+      - rw/statute/law-2022-036/military-medical-insurance
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2005-23/military-medical-insurance-2005
+        - rw/statute/law-2022-036/military-medical-insurance
+      rationale: |-
+        Law No 23/2005 of 12/12/2005 establishing Military Medical Insurance is
+        the gazetted source whose Article 30 states the MMI subscription rates
+        (22.5% total; the government 17.5% and the insured 5% for a soldier).
+        Law No 036/2022 of 09/12/2022 establishes the current MMI framework but
+        defers the medical care scheme contribution rates to a Prime Minister's
+        Order that is not publicly digitized; the current higher authority was
+        checked, and the 2005 print remains the operative gazetted carrier of
+        the 5%/17.5% split the oracle applies for the validation year.
+  summary: |-
+    Military Medical Insurance (MMI) subscription rates under Law No 23/2005 of
+    12/12/2005, Article 30: "Every month's subscription is twenty two and a half
+    per cent (22.5%) of the basic salary of an insured person. Regarding a
+    soldier, the government contributes seventeen and a half per cent (17.5%),
+    while the insured pays five per cent (5%)." This module encodes the MMI
+    subscription rates only. Law No 036/2022 of 09/12/2022 replaces the 2005 law
+    and defers the medical care scheme contribution rates to a Prime Minister's
+    Order that is not publicly digitized, so the 2005 gazetted split (5% insured,
+    17.5% government) is the operative carrier of the rates the oracle applies
+    for the validation year. The Law came into force on publication (Article 46).
+rules:
+  - name: total_mmi_subscription_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "Every month’s subscription is twenty two and a half per cent (22.5%) of the basic salary"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          0.225
+
+  - name: government_mmi_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "the government contributes seventeen and a half per cent (17.5%)"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          0.175
+
+  - name: insured_mmi_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "the insured pays five per cent (5%)"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          0.05
+
+  - name: total_mmi_subscription
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "Every month’s subscription is twenty two and a half per cent (22.5%) of the basic salary"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "This law shall come into force on the day of its publication in the Official Gazette of the Republic of Rwanda"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          total_mmi_subscription_rate * max(0, basic_salary)
+
+  - name: insured_mmi_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "while the insured pays five per cent (5%)"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          insured_mmi_contribution_rate * max(0, basic_salary)
+
+  - name: government_mmi_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 23/2005, Article 30
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
+              excerpt: "the government contributes seventeen and a half per cent (17.5%)"
+    versions:
+      - effective_from: '2005-12-12'
+        formula: |-
+          government_mmi_contribution_rate * max(0, basic_salary)

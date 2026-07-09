@@ -1,0 +1,43 @@
+# Companion fixtures for the RAMA medical-scheme contribution rates
+# (Law No 24/2001, Article 44 as amended by Law n° 29/2002): 15% of the
+# employee's basic salary split 7,5% employer + 7,5% employee. Every
+# derived rule (total, employee, employer) is asserted in each fixture.
+# Hand arithmetic:
+#   100,000 x 0.15 = 15,000; 100,000 x 0.075 = 7,500 (each share).
+#   214,306 x 0.15 = 32,145.90; 214,306 x 0.075 = 16,072.95 (each share).
+
+- name: rama_contributions_100000_basic_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2001-24/rama-contributions#input.employee_basic_salary: 100000
+  output:
+    rw:statutes/law-2001-24/rama-contributions#total_rama_contribution: 15000
+    rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution: 7500
+    rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution: 7500
+
+- name: rama_contributions_zero_basic_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2001-24/rama-contributions#input.employee_basic_salary: 0
+  output:
+    rw:statutes/law-2001-24/rama-contributions#total_rama_contribution: 0
+    rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution: 0
+    rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution: 0
+
+- name: rama_contributions_214306_basic_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2001-24/rama-contributions#input.employee_basic_salary: 214306
+  output:
+    rw:statutes/law-2001-24/rama-contributions#total_rama_contribution: 32145.9
+    rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution: 16072.95
+    rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution: 16072.95

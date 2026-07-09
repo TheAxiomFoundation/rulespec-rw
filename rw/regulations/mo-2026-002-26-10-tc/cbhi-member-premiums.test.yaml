@@ -1,0 +1,62 @@
+# Companion fixtures for the Ministerial Order No 002/26/10/TC of
+# 16/02/2026 CBHI member premium schedule (rulespec-rw#1). Periods sit
+# inside the effective window (entry into force on publication,
+# 23/02/2026). Member-paid amounts by IMIBEREHO level: 1 -> 0 (the
+# FRW 4,000 is State-paid), 2 -> 3,000 (plus 1,000 State-paid),
+# 3 -> 5,000, 4 -> 8,000, 5 -> 20,000.
+
+- name: cbhi_premiums_level_1
+  period:
+    period_kind: tax_year
+    start: '2027-01-01'
+    end: '2027-12-31'
+  input:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#input.imibereho_dynamic_social_registry_level: 1
+  output:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution: 0
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution: 4000
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution: 4000
+
+- name: cbhi_premiums_level_2
+  period:
+    period_kind: tax_year
+    start: '2027-01-01'
+    end: '2027-12-31'
+  input:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#input.imibereho_dynamic_social_registry_level: 2
+  output:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution: 3000
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution: 1000
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution: 4000
+
+- name: cbhi_premiums_level_3
+  period:
+    period_kind: tax_year
+    start: '2027-01-01'
+    end: '2027-12-31'
+  input:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#input.imibereho_dynamic_social_registry_level: 3
+  output:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution: 5000
+
+- name: cbhi_premiums_level_4
+  period:
+    period_kind: tax_year
+    start: '2027-01-01'
+    end: '2027-12-31'
+  input:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#input.imibereho_dynamic_social_registry_level: 4
+  output:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution: 8000
+
+- name: cbhi_premiums_level_5
+  period:
+    period_kind: tax_year
+    start: '2027-01-01'
+    end: '2027-12-31'
+  input:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#input.imibereho_dynamic_social_registry_level: 5
+  output:
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution: 20000
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution: 0
+    rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution: 20000

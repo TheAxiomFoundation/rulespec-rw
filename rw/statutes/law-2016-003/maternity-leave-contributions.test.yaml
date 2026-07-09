@@ -1,0 +1,41 @@
+# Companion fixtures for the Law No 003/2016 maternity leave contributions.
+# Monthly cases in 2025-03 (RWAMOD RW_2025 applies 0.3% + 0.3% on gross
+# employment income); inside the version window opened by the Article 21
+# commencement (20/04/2016). Hand arithmetic at 0.3% (each) and 0.6% (total).
+- name: contributions_on_positive_salary
+  # 0.3% x 100,000 = 300 each; 0.6% x 100,000 = 600 total.
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 100000
+  output:
+    rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution: 300
+    rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution: 300
+    rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution: 600
+
+- name: contributions_on_zero_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 0
+  output:
+    rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution: 0
+    rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution: 0
+    rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution: 0
+
+- name: contributions_on_fractional_result_salary
+  # 0.3% x 321,460 = 964.38 each; 0.6% x 321,460 = 1,928.76 total.
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 321460
+  output:
+    rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution: 964.38
+    rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution: 964.38
+    rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution: 1928.76

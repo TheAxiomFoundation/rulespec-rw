@@ -1,0 +1,35 @@
+# Companion fixtures for the CBHI formal-sector employee contribution
+# (PM Order No 105/03 of 30/09/2020, Article 5): 0.5% of the employee's
+# net salary. Hand arithmetic:
+#   100,000 x 0.005 = 500.
+#   94,971.85 x 0.005 = 474.85925 (the live oracle probe's net base).
+
+- name: cbhi_employee_contribution_100000_net_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#input.employee_net_salary: 100000
+  output:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_contribution: 500
+
+- name: cbhi_employee_contribution_zero_net_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#input.employee_net_salary: 0
+  output:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_contribution: 0
+
+- name: cbhi_employee_contribution_94971_85_net_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#input.employee_net_salary: 94971.85
+  output:
+    rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_contribution: 474.85925

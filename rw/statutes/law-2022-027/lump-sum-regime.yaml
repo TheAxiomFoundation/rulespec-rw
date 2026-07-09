@@ -1,0 +1,293 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2022-027/establishing-taxes-on-income
+      rationale: |-
+        Law No 027/2022 of 20/10/2022 establishing taxes on income is the
+        gazetted primary source (Official Gazette nº Special of 28/10/2022).
+        Article 14 sets the small-enterprise 3% lump-sum tax and the
+        micro-enterprise flat-amount table, Article 3 defines the
+        small-enterprise and micro-enterprise turnover ranges, and Article 21
+        sets the agricultural/livestock exemption. Article 73 fixes
+        commencement on publication.
+  summary: |-
+    Presumptive (lump-sum) taxation under Law No 027/2022 of 20/10/2022. A
+    person who operates a small enterprise (annual turnover FRW 12,000,001 to
+    FRW 20,000,000 per Article 3) pays a lump-sum tax of 3% of annual turnover
+    (Article 14), unless the operator opts out of the flat-rate lump-sum scheme
+    and elects the real (actual profit) regime. A micro-enterprise (turnover
+    equal to or less than FRW 12,000,000) pays the Article 14 flat amount by
+    turnover band: FRW 60,000 for 2,000,000-4,000,000; FRW 120,000 for
+    4,000,001-7,000,000; FRW 210,000 for 7,000,001-10,000,000; FRW 300,000 for
+    10,000,001-12,000,000. Turnover below FRW 2,000,000 attracts no flat amount,
+    and turnover above FRW 20,000,000 is outside the lump-sum regime (real
+    regime, not computed here). Article 21 exempts agricultural or livestock
+    income where the activity turnover does not exceed FRW 12,000,000; where it
+    exceeds that amount, FRW 12,000,000 is excluded from taxable income, so
+    taxable agricultural income is the excess over FRW 12,000,000. The PAYE
+    monthly schedules of Article 56 are encoded separately. Amounts apply per
+    tax period; the Law came into force on publication (28/10/2022).
+rules:
+  - name: small_enterprise_minimum_annual_turnover
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 027/2022, Article 3 (definition of small business)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "turnover ranging between twelve million and one Rwandan francs (FRW 12,000,001)"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          12000001
+
+  - name: small_enterprise_maximum_annual_turnover
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 027/2022, Article 3 (definition of small business)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "and twenty million Rwandan francs (FRW 20,000,000)"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          20000000
+
+  - name: small_enterprise_lump_sum_tax_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 027/2022, Article 14
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "pays a lumpsum tax of three percent (3%) of his or her annual turnover"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          0.03
+
+  - name: agricultural_exemption_threshold
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 027/2022, Article 21 (tax exemption for agricultural and livestock activities)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "twelve million Rwanda francs (FRW 12,000,000)"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          12000000
+
+  - name: micro_enterprise_flat_tax_band_lower_bound
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    indexed_by: micro_enterprise_flat_tax_band
+    source: Law No 027/2022, Article 14 table for micro-enterprises
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "From 2,000,000 to 4,000,000 60,000 From 4,000,001 to 7,000,000 120,000 From 7,000,001 to 10,000,000 210,000 From 10,000,001 to 12,000,000 300,000"
+              table:
+                header: "Annual Turnover Annual flat amount of tax due in Rwandan francs"
+                row_key: "annual_turnover"
+                column_key: "lower_bound"
+    versions:
+      - effective_from: '2022-10-28'
+        values:
+          0: 2000000
+          1: 4000001
+          2: 7000001
+          3: 10000001
+
+  - name: micro_enterprise_flat_tax_band_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    indexed_by: micro_enterprise_flat_tax_band
+    source: Law No 027/2022, Article 14 table for micro-enterprises
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "From 2,000,000 to 4,000,000 60,000 From 4,000,001 to 7,000,000 120,000 From 7,000,001 to 10,000,000 210,000 From 10,000,001 to 12,000,000 300,000"
+              table:
+                header: "Annual Turnover Annual flat amount of tax due in Rwandan francs"
+                row_key: "annual_turnover"
+                column_key: "upper_bound"
+    versions:
+      - effective_from: '2022-10-28'
+        values:
+          0: 4000000
+          1: 7000000
+          2: 10000000
+          3: 12000000
+
+  - name: micro_enterprise_flat_tax_amount
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    indexed_by: micro_enterprise_flat_tax_band
+    source: Law No 027/2022, Article 14 table for micro-enterprises
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "From 2,000,000 to 4,000,000 60,000 From 4,000,001 to 7,000,000 120,000 From 7,000,001 to 10,000,000 210,000 From 10,000,001 to 12,000,000 300,000"
+              table:
+                header: "Annual Turnover Annual flat amount of tax due in Rwandan francs"
+                row_key: "annual_turnover"
+                column_key: "annual_flat_amount_of_tax_due"
+    versions:
+      - effective_from: '2022-10-28'
+        values:
+          0: 60000
+          1: 120000
+          2: 210000
+          3: 300000
+
+  - name: micro_enterprise_flat_tax_band
+    kind: derived
+    entity: Person
+    dtype: Integer
+    period: Year
+    source: Law No 027/2022, Article 14 table for micro-enterprises
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "Micro-enterprises following their annual turnover must pay the flat amount of tax as per the following table"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          if annual_turnover >= micro_enterprise_flat_tax_band_lower_bound[0] and annual_turnover <= micro_enterprise_flat_tax_band_upper_bound[0]: 0 else: if annual_turnover >= micro_enterprise_flat_tax_band_lower_bound[1] and annual_turnover <= micro_enterprise_flat_tax_band_upper_bound[1]: 1 else: if annual_turnover >= micro_enterprise_flat_tax_band_lower_bound[2] and annual_turnover <= micro_enterprise_flat_tax_band_upper_bound[2]: 2 else: if annual_turnover >= micro_enterprise_flat_tax_band_lower_bound[3] and annual_turnover <= micro_enterprise_flat_tax_band_upper_bound[3]: 3 else: -1
+
+  - name: micro_enterprise_flat_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 027/2022, Article 14 table for micro-enterprises
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "From 2,000,000 to 4,000,000 60,000 From 4,000,001 to 7,000,000 120,000 From 7,000,001 to 10,000,000 210,000 From 10,000,001 to 12,000,000 300,000"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          if micro_enterprise_flat_tax_band == -1: 0 else: micro_enterprise_flat_tax_amount[micro_enterprise_flat_tax_band]
+
+  - name: small_enterprise_lump_sum_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 027/2022, Article 14
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "a person who operates a small enterprise pays a lumpsum tax of three percent (3%) of his or her annual turnover"
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "A person who operates a small enterprise may apply to be allowed to opt out of the flat-rate lumpsum taxation scheme"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          if annual_turnover >= small_enterprise_minimum_annual_turnover and annual_turnover <= small_enterprise_maximum_annual_turnover and not small_enterprise_operator_opted_for_real_regime: annual_turnover * small_enterprise_lump_sum_tax_rate else: 0
+
+  - name: lump_sum_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 027/2022, Article 14 (combined micro-enterprise flat amount and small-enterprise 3% lump-sum tax)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "a person who operates a small enterprise pays a lumpsum tax of three percent (3%) of his or her annual turnover"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "This Law comes into force on the date of its publication in the Official Gazette of the Republic of Rwanda"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          micro_enterprise_flat_tax + small_enterprise_lump_sum_tax
+
+  - name: taxable_agricultural_income
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 027/2022, Article 21 (tax exemption for agricultural and livestock activities)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "In case the turnover exceeds twelve million Rwandan francs (FRW 12,000,000), the latter amount is excluded from the taxable income"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          max(0, agricultural_turnover - agricultural_exemption_threshold)

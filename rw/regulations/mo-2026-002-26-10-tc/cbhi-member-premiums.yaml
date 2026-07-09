@@ -1,0 +1,183 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+      - rw/statute/law-2015-03/community-based-health-insurance
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2015-03/community-based-health-insurance
+        - rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+      rationale: |-
+        Law No 03/2015 governing the organisation of the community-based
+        health insurance scheme is the higher authority delegating the
+        determination of contribution amounts and payment modalities to
+        Orders; Ministerial Order No 002/26/10/TC of 16/02/2026,
+        published in the Official Gazette no Special of 23/02/2026,
+        fixes the member premium schedule by IMIBEREHO Dynamic Social
+        Registry level under that delegation. The statute was checked
+        first and carries the delegation.
+  summary: |-
+    Ministerial Order No 002/26/10/TC of 16/02/2026, Article One,
+    determines the CBHI member contribution in accordance with the
+    level of registration in the IMIBEREHO Dynamic Social Registry: a
+    member at level one pays FRW 4,000 per person per year paid by the
+    State; level two pays FRW 3,000 plus FRW 1,000 paid by the State;
+    levels three, four and five pay FRW 5,000, FRW 8,000 and FRW
+    20,000. Article 5 brings the Order into force on publication
+    (Official Gazette no Special of 23/02/2026). Timing context: this
+    is the first gazetted carrier of the informal-sector premium
+    schedule; the amounts ran administratively from 2024 under RSSB
+    publication by monthly-income tier, and the parity oracle applies
+    them in its 2025 system year while this module correctly starts
+    2026-02-23 - the validation-year grounding gap is a recorded
+    parity finding, not back-dated here. Co-payment and
+    payment-obligation provisions (Articles 2-3) are out of the
+    encoded premium surface.
+rules:
+  - name: cbhi_member_total_annual_contribution_by_social_registry_level
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Year
+    indexed_by: imibereho_dynamic_social_registry_level
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "(a) a member registered at level one pays an annual contribution of FRW 4,000 per person, and this amount is paid by the State; (b) a member registered at level two pays an annual contribution of FRW 3,000 per person, plus FRW 1,000 paid by the State; (c) a member registered at level three pays an annual contribution of FRW 5,000 per person; (d) a member registered at level four pays an annual contribution of FRW 8,000 per person; (e) a member registered at level five pays an annual contribution of FRW 20,000 per person."
+              table:
+                header: "CBHI annual contribution by IMIBEREHO Dynamic Social Registry level (member-paid plus State-paid)"
+                row_key: "imibereho_dynamic_social_registry_level"
+                column_key: "total_annual_contribution"
+    versions:
+      - effective_from: '2026-02-23'
+        values:
+          1: 4000
+          2: 4000
+          3: 5000
+          4: 8000
+          5: 20000
+
+  - name: cbhi_member_paid_annual_contribution_by_social_registry_level
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Year
+    indexed_by: imibereho_dynamic_social_registry_level
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One (member-paid share; the level-one amount is paid by the State and level two carries an additional FRW 1,000 State share)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "(a) a member registered at level one pays an annual contribution of FRW 4,000 per person, and this amount is paid by the State; (b) a member registered at level two pays an annual contribution of FRW 3,000 per person, plus FRW 1,000 paid by the State; (c) a member registered at level three pays an annual contribution of FRW 5,000 per person; (d) a member registered at level four pays an annual contribution of FRW 8,000 per person; (e) a member registered at level five pays an annual contribution of FRW 20,000 per person."
+              table:
+                header: "CBHI member-paid annual contribution by IMIBEREHO Dynamic Social Registry level"
+                row_key: "imibereho_dynamic_social_registry_level"
+                column_key: "member_paid_annual_contribution"
+    versions:
+      - effective_from: '2026-02-23'
+        values:
+          1: 0
+          2: 3000
+          3: 5000
+          4: 8000
+          5: 20000
+
+  - name: cbhi_state_paid_annual_contribution_by_social_registry_level
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Year
+    indexed_by: imibereho_dynamic_social_registry_level
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One (State-paid share)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].values
+            kind: parameter_table
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "(a) a member registered at level one pays an annual contribution of FRW 4,000 per person, and this amount is paid by the State; (b) a member registered at level two pays an annual contribution of FRW 3,000 per person, plus FRW 1,000 paid by the State; (c) a member registered at level three pays an annual contribution of FRW 5,000 per person; (d) a member registered at level four pays an annual contribution of FRW 8,000 per person; (e) a member registered at level five pays an annual contribution of FRW 20,000 per person."
+              table:
+                header: "State-paid CBHI annual contribution by IMIBEREHO Dynamic Social Registry level"
+                row_key: "imibereho_dynamic_social_registry_level"
+                column_key: "state_paid_annual_contribution"
+    versions:
+      - effective_from: '2026-02-23'
+        values:
+          1: 4000
+          2: 1000
+          3: 0
+          4: 0
+          5: 0
+
+  - name: cbhi_member_total_annual_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "determined in accordance with the level of registration in IMIBEREHO Dynamic Social Registry, as follows:"
+    versions:
+      - effective_from: '2026-02-23'
+        formula: |-
+          cbhi_member_total_annual_contribution_by_social_registry_level[imibereho_dynamic_social_registry_level]
+
+  - name: cbhi_member_paid_annual_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One (member-paid share)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "(b) a member registered at level two pays an annual contribution of FRW 3,000 per person, plus FRW 1,000 paid by the State"
+    versions:
+      - effective_from: '2026-02-23'
+        formula: |-
+          cbhi_member_paid_annual_contribution_by_social_registry_level[imibereho_dynamic_social_registry_level]
+
+  - name: cbhi_state_paid_annual_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Ministerial Order No 002/26/10/TC of 16/02/2026, Article One (State-paid share)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
+              excerpt: "(a) a member registered at level one pays an annual contribution of FRW 4,000 per person, and this amount is paid by the State"
+    versions:
+      - effective_from: '2026-02-23'
+        formula: |-
+          cbhi_state_paid_annual_contribution_by_social_registry_level[imibereho_dynamic_social_registry_level]
