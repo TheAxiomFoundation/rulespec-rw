@@ -1,0 +1,35 @@
+# Companion fixtures for the Law No 049/2023 standard-rate VAT charge.
+# Annual cases over CY2025 (RWAMOD RW_2025 applies 18% to the COICOP
+# household consumption base); inside the version window opened by the
+# Article 37 commencement (14/09/2023). Hand arithmetic at 18%.
+- name: standard_rate_charge
+  # 18% x 100,000 = 18,000.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-049/value-added-tax#input.taxable_value: 100000
+  output:
+    rw:statutes/law-2023-049/value-added-tax#vat_amount: 18000
+
+- name: zero_base_zero_vat
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-049/value-added-tax#input.taxable_value: 0
+  output:
+    rw:statutes/law-2023-049/value-added-tax#vat_amount: 0
+
+- name: standard_rate_charge_large_base
+  # 18% x 1,234,000 = 222,120.
+  period:
+    period_kind: tax_year
+    start: '2025-01-01'
+    end: '2025-12-31'
+  input:
+    rw:statutes/law-2023-049/value-added-tax#input.taxable_value: 1234000
+  output:
+    rw:statutes/law-2023-049/value-added-tax#vat_amount: 222120

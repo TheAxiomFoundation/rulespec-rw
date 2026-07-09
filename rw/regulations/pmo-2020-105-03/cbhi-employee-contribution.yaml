@@ -1,0 +1,74 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+      - rw/statute/law-2015-03/community-based-health-insurance
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2015-03/community-based-health-insurance
+        - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+      rationale: |-
+        Law No 03/2015 of 02/03/2015 governing the organisation of the
+        community-based health insurance scheme is the higher authority:
+        it establishes the scheme and delegates the determination of
+        member and employee contributions to Prime Minister's Orders.
+        Prime Minister's Order No 105/03 of 30/09/2020, issued under that
+        delegation, fixes the formal-sector employee contribution at 0.5%
+        of net salary in Article 5. The statute was checked first and
+        carries the delegation; the Order carries the encoded rate.
+  summary: |-
+    Prime Minister's Order No 105/03 of 30/09/2020, Article 5, sets the
+    formal-sector employee CBHI contribution at zero-point five percent
+    (0.5%) of the employee's net salary, for an employee in a State organ
+    and an employee in the private sector; the employer withholds the
+    contribution and deposits it to the scheme's bank account. This module
+    encodes that rate and the resulting monthly employee contribution only.
+    Net salary is an input: the Order does not define it further, so the
+    base is the employee's net salary as declared monthly by the employer.
+    Article 16 provides that the Order comes into force on the date of its
+    publication in the Official Gazette; gazetted 01/10/2020, so
+    effective_from is 2020-10-01. The Order was repealed with effect from
+    23/02/2026 by Prime Minister's Order No 001/03 of 16/02/2026, so this
+    0.5% rate governs the whole CY2025 validation year; RuleSpec versions
+    carry effective_from only, so no end-date mechanism is added here.
+rules:
+  - name: employee_cbhi_rate
+    kind: parameter
+    dtype: Rate
+    source: Prime Minister's Order No 105/03 of 30/09/2020, Article 5
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+              excerpt: "percent (0.5%) of the net salary of the employee"
+    versions:
+      - effective_from: '2020-10-01'
+        formula: |-
+          0.005
+
+  - name: employee_cbhi_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Prime Minister's Order No 105/03 of 30/09/2020, Article 5 (0.5% of the employee's net salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+              excerpt: "percent (0.5%) of the net salary of the employee"
+    versions:
+      - effective_from: '2020-10-01'
+        formula: |-
+          max(0, employee_net_salary) * employee_cbhi_rate

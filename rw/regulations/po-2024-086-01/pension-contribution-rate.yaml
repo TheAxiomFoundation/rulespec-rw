@@ -1,0 +1,151 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/regulation/po-2024-086-01/pension-contribution-rate
+      - rw/statute/law-2015-05/organisation-of-pension-schemes
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2015-05/organisation-of-pension-schemes
+        - rw/regulation/po-2024-086-01/pension-contribution-rate
+      rationale: |-
+        Law No 05/2015 governing the organisation of pension schemes is
+        the higher authority: its Article 8 provides that the
+        contribution rate to the mandatory pension scheme "shall be
+        determined by a Presidential Order" and fixes the sharing rule
+        ("The employer and the employee shall contribute equally to the
+        pension scheme"). Presidential Order No 086/01 of 12/12/2024,
+        issued under that delegation, fixes the total rate ladder from
+        1 January 2025 and repeals Presidential Order No 009/01 of
+        10/05/2016; the statute was checked first and carries the
+        delegation and the equal split.
+  summary: |-
+    Presidential Order No 086/01 of 12/12/2024, Article One, fixes the
+    mandatory pension scheme contribution rate as a percentage of the
+    remuneration subject to contribution: 12% from 1 January 2025, 14%
+    from 1 January 2027, 16% from 1 January 2028, 18% from 1 January
+    2029 and 20% from 1 January 2030. Article 5 repeals Presidential
+    Order No 009/01 of 10/05/2016 (the prior total) and Article 6
+    brings the Order into force on publication (Official Gazette no
+    Special of 13/12/2024). Under Article 8 of Law No 05/2015 the
+    employer and the employee contribute equally, so each pays half of
+    the total rate on the remuneration subject to contribution.
+rules:
+  - name: mandatory_pension_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Presidential Order No 086/01 of 12/12/2024, Article One
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "from 1st January 2025: 12%"
+          - path: versions[1].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "from 1st January 2027: 14%"
+          - path: versions[2].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "from 1st January 2028: 16%"
+          - path: versions[3].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "from 1st January 2029: 18%"
+          - path: versions[4].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "from 1st January 2030: 20 %"
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          0.12
+      - effective_from: '2027-01-01'
+        formula: |-
+          0.14
+      - effective_from: '2028-01-01'
+        formula: |-
+          0.16
+      - effective_from: '2029-01-01'
+        formula: |-
+          0.18
+      - effective_from: '2030-01-01'
+        formula: |-
+          0.20
+
+  - name: pension_equal_sharing_fraction
+    kind: parameter
+    dtype: Rate
+    source: Law No 05/2015 of 30/03/2015, Article 8 (the employer and the employee contribute equally, so each bears one half of the total rate)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-05/organisation-of-pension-schemes
+              excerpt: "The employer and the employee shall contribute equally to the pension scheme."
+    versions:
+      - effective_from: '2015-05-18'
+        formula: |-
+          0.5
+
+  - name: employee_pension_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Presidential Order No 086/01 of 12/12/2024, Article One, shared equally under Law No 05/2015, Article 8
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "The rate of contribution under the mandatory pension scheme is fixed at the following percentage of the remuneration subject to contribution"
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2015-05/organisation-of-pension-schemes
+              excerpt: "The employer and the employee shall contribute equally to the pension scheme."
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          mandatory_pension_contribution_rate * pension_equal_sharing_fraction * max(0, covered_remuneration)
+
+  - name: employer_pension_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Presidential Order No 086/01 of 12/12/2024, Article One, shared equally under Law No 05/2015, Article 8
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "The rate of contribution under the mandatory pension scheme is fixed at the following percentage of the remuneration subject to contribution"
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2015-05/organisation-of-pension-schemes
+              excerpt: "The employer and the employee shall contribute equally to the pension scheme."
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          mandatory_pension_contribution_rate * pension_equal_sharing_fraction * max(0, covered_remuneration)

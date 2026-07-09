@@ -1,0 +1,229 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2022-027/establishing-taxes-on-income
+      rationale: |-
+        Law No 027/2022 of 20/10/2022 establishing taxes on income is the
+        primary statute: Article 56 carries the monthly withholding
+        schedules on employment income (Table 1 for the first year
+        following the date of commencement, Table 2 from the second
+        year) and the casual-labourer special rate. Article 73
+        commences the law on publication (Official Gazette no Special
+        of 28/10/2022) and Article 8 fixes the tax period as the
+        calendar year, so the first year following commencement is
+        CY2023 and Table 2 applies from 1 January 2024. The 2023
+        amendment (Law No 051/2023) touches declaration timing and the
+        corporate rate only, and the 27 May 2025 package left these
+        brackets unamended, so the Table 2 schedule stands for CY2025.
+  summary: |-
+    Article 56 pays the withholding tax on employment income referred
+    to in Article 15 according to two monthly tables: Table 1 ("First
+    year following the date of commencement of this law") taxes
+    monthly taxable income at 0% up to 60,000 FRW, 20% from 60,001 to
+    100,000 and 30% above 100,000; Table 2 ("From the second year
+    after the commencement of this law") taxes 0% up to 60,000 FRW,
+    10% from 60,001 to 100,000, 20% from 100,001 to 200,000 and 30%
+    above 200,000. Income of a casual labourer is instead subject to a
+    special rate of fifteen percent (15%), with income not exceeding
+    60,000 FRW per month rated at zero percent. The law commences on
+    publication (Article 73; Official Gazette no Special of
+    28/10/2022) and the tax period is the calendar year (Article 8),
+    so Table 1 governs CY2023 and Table 2 governs CY2024 onward; the
+    schedule versions below carry that derivation.
+rules:
+  - name: first_monthly_band_upper_income
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 027/2022, Article 56, Tables 1 and 2 (also the casual-labourer zero-rated band)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "0 60,000 0%"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          60000
+
+  - name: second_monthly_band_upper_income
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 027/2022, Article 56, Tables 1 and 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "60,001 100,000"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          100000
+
+  - name: third_monthly_band_upper_income
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 027/2022, Article 56, Table 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "100,001 200,000 20%"
+    versions:
+      - effective_from: '2024-01-01'
+        formula: |-
+          200000
+
+  - name: middle_band_withholding_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 027/2022, Article 56 (Table 1 row 60,001-100,000 at 20%; Table 2 row 60,001-100,000 at 10% from the second year)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "60,001 100,000 20%"
+          - path: versions[1].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "60,001 100,000 10%"
+    versions:
+      - effective_from: '2023-01-01'
+        formula: |-
+          0.20
+      - effective_from: '2024-01-01'
+        formula: |-
+          0.10
+
+  - name: upper_middle_band_withholding_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 027/2022, Article 56, Table 2 row 100,001-200,000
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "100,001 200,000 20%"
+    versions:
+      - effective_from: '2024-01-01'
+        formula: |-
+          0.20
+
+  - name: top_withholding_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 027/2022, Article 56 (Table 1 row 100,001 and more; Table 2 row 200,001 and more)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "100,001 More 30%"
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "200,001 More 30%"
+    versions:
+      - effective_from: '2023-01-01'
+        formula: |-
+          0.30
+
+  - name: casual_labourer_special_withholding_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 027/2022, Article 56
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "income from a casual labourer is subject to tax on the special rate of fifteen percent (15%)"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          0.15
+
+  - name: employment_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 027/2022, Article 56 (Table 1 for the first year following commencement = CY2023 under Articles 8 and 73; Table 2 from the second year = CY2024 onward)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "Table 1: First year following the date of commencement of this law"
+          - path: versions[1].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "Table 2: From the second year after the commencement of this law"
+          - path: versions[1].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "The withholding tax on employment income referred to in Article 15 of this Law is paid according to the rates provided in the tables"
+    versions:
+      - effective_from: '2023-01-01'
+        formula: |-
+          middle_band_withholding_rate * max(0, min(monthly_taxable_employment_income, second_monthly_band_upper_income) - first_monthly_band_upper_income) + top_withholding_rate * max(0, monthly_taxable_employment_income - second_monthly_band_upper_income)
+      - effective_from: '2024-01-01'
+        formula: |-
+          middle_band_withholding_rate * max(0, min(monthly_taxable_employment_income, second_monthly_band_upper_income) - first_monthly_band_upper_income) + upper_middle_band_withholding_rate * max(0, min(monthly_taxable_employment_income, third_monthly_band_upper_income) - second_monthly_band_upper_income) + top_withholding_rate * max(0, monthly_taxable_employment_income - third_monthly_band_upper_income)
+
+  - name: casual_labour_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 027/2022, Article 56 (casual-labourer special rate)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "in computing casual labourer’s tax, an income not exceeding sixty thousand Rwandan francs (60,000 FRW) per month is rated at zero percent (0%)"
+    versions:
+      - effective_from: '2022-10-28'
+        formula: |-
+          casual_labourer_special_withholding_rate * max(0, casual_monthly_income - first_monthly_band_upper_income)

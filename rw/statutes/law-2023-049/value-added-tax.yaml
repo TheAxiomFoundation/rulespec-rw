@@ -1,0 +1,122 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2023-049/value-added-tax
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2023-049/value-added-tax
+      rationale: |-
+        Law No 049/2023 of 05/09/2023 on value added tax is the gazetted
+        primary source (Official Gazette nº Special of 14/09/2023). Article 4
+        sets the standard rate; Article 37 fixes commencement on publication.
+        The May 2025 amendment (Law No 009/2025) does not change the standard
+        rate, so 18% stands for CY2025.
+  summary: |-
+    Value added tax under Law No 049/2023 of 05/09/2023. Article 4 sets the
+    rate of VAT at 0% for taxable goods or services that are zero-rated and 18%
+    for other goods and services supplied in Rwanda or imported. This module
+    encodes the standard rate and the charged amount only: the VAT amount is the
+    standard rate applied to the (non-negative) taxable value of the base, with
+    that base assembled by the composed pipeline / oracle mapping rather than by
+    this module. Registration thresholds, zero-rating and exemption schedules,
+    input-output netting, refunds, and declaration frequency are out of the
+    modelled household surface and are not encoded here. Article 37 brings the
+    Law into force on publication (14/09/2023). The May 2025 amendment (Law No
+    009/2025) does not change the standard rate, so 18% stands for CY2025.
+  deferred_outputs:
+    - output: rw:statutes/law-2023-049/value-added-tax/a#supply_of_goods
+      reason: Definition-only legal text requiring a transaction-property ontology for ownership transfer, not needed for the executable VAT amount encoded here.
+    - output: rw:statutes/law-2023-049/value-added-tax/b#capital_assets
+      reason: Definition-only legal text requiring asset-use classification for production; no source-stated computation in this module depends on it.
+    - output: rw:statutes/law-2023-049/value-added-tax/c#goods
+      reason: Definition-only legal text requiring a goods-versus-money classification ontology.
+    - output: rw:statutes/law-2023-049/value-added-tax/d#taxable_goods_or_services
+      reason: Definition depends on imported-or-locally-supplied status and taxability under the whole law; this broad category is not collapsed into one executable predicate here.
+    - output: rw:statutes/law-2023-049/value-added-tax/g#hybrid_automotive_vehicle_kinyarwanda_fragment
+      reason: Duplicated checklist citation fragment from multilingual text; covered non-executably to avoid inventing a separate output from the same definition.
+    - output: rw:statutes/law-2023-049/value-added-tax/f#consideration
+      reason: Definition requires aggregating monetary, non-monetary, customs, discount, and rebate components; the component relation schema is not available in this target.
+    - output: rw:statutes/law-2023-049/value-added-tax/g#hybrid_automotive_vehicle
+      reason: Definition-only vehicle technology classification; no executable VAT computation here turns on that classification.
+    - output: rw:statutes/law-2023-049/value-added-tax/h#value_added_tax_return
+      reason: Definition-only filing-document concept; filing frequency is encoded separately from document validity.
+    - output: rw:statutes/law-2023-049/value-added-tax/j#commissioner_general
+      reason: Institutional definition with no computable formula.
+    - output: rw:statutes/law-2023-049/value-added-tax/k#minister
+      reason: Institutional definition with no computable formula.
+    - output: rw:statutes/law-2023-049/value-added-tax/l#service
+      reason: Definition-only activity classification requiring a service ontology and payment linkage.
+    - output: rw:statutes/law-2023-049/value-added-tax/m#service_supplied_in_rwanda
+      reason: Multi-branch place-of-supply definition depends on headquarters, residence, direct concern, recipient need, and recipient benefit facts not encoded as a complete service-supply ontology here.
+    - output: rw:statutes/law-2023-049/value-added-tax/n#all_inclusive_tour_package
+      reason: Definition-only tour-operator package concept; no executable tour package computation is requested.
+    - output: rw:statutes/law-2023-049/value-added-tax/o#exported_service
+      reason: Definition depends on use or consumption outside Rwanda and absence of impact on recipient interest in Rwanda; deferred as a service-place classification.
+    - output: rw:statutes/law-2023-049/value-added-tax/p#construction
+      reason: Definition-only construction classification including maintenance and upgrading; no construction-specific output is encoded here.
+    - output: rw:statutes/law-2023-049/value-added-tax/r#person
+      reason: Broad inclusive legal-person definition covering many entity forms; no single supported entity predicate faithfully represents the full list.
+    - output: rw:statutes/law-2023-049/value-added-tax/b#refund_applicant_entitlement_evidence
+      reason: Article 33 refund-application documentation requirement depends on administrative applicant entitlement and Commissioner General form requirements outside the executable VAT amount surface.
+rules:
+  - name: vat_zero_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 049/2023, Article 4(a)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2023-049/value-added-tax
+              excerpt: "0% of the value of taxable goods or services that are zero-rated as provided for by this Law"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          0
+
+  - name: vat_standard_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 049/2023, Article 4(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2023-049/value-added-tax
+              excerpt: "18% for other goods and services supplied in Rwanda or imported"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          0.18
+
+  - name: vat_amount
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 049/2023, Article 3 (charge) at the Article 4(b) standard rate
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2023-049/value-added-tax
+              excerpt: "Value added tax is charged on"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: rw/statute/law-2023-049/value-added-tax
+              excerpt: "This Law comes into force on the date of its publication in the Official Gazette of the Republic of Rwanda"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          vat_standard_rate * max(0, taxable_value)

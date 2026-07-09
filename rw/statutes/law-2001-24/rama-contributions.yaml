@@ -1,0 +1,147 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2001-24/rama-medical-insurance
+      rationale: |-
+        Law No 24/2001 of 27/04/2001 establishing RAMA is the primary
+        instrument. Article 44, as amended by Law n° 29/2002 of
+        19/09/2002, fixes the medical-scheme contribution rate (15% of
+        the employee's basic salary) and its equal 7,5%/7,5% split; no
+        lower order is needed to set the encoded rates. The captured text
+        is the RSSB library English consolidated print of Law No 24/2001
+        incorporating the Law No 29/2002 modifications.
+  summary: |-
+    Article 44 (as amended by Law n° 29/2002 of 19/09/2002) sets the RAMA
+    medical-scheme contribution at 15% of the employee's basic salary,
+    shared equally between employer and employee at 7,5% each. This module
+    encodes those contribution rates and the resulting monthly employer,
+    employee, and total contributions on the employee's basic salary only.
+    Article 44 also states a 15% moderating fee on the cost of medical
+    services, and Articles 45-46 govern monthly declaration/payment and
+    delay increments; those benefit and compliance mechanics are outside
+    the contribution surface and are not encoded here. The captured text is
+    the RSSB library English consolidated print (Law No 24/2001
+    incorporating the Law No 29/2002 modifications); it carries no gazette
+    line, so effective_from is the law's own date 2001-04-27 and the
+    consolidated-reproduction nature is flagged here. The print carries no
+    provision extending contributions to retired members/pensioners; the
+    pensioner contribution arm the RWAMOD oracle applies (7.5% on pension
+    income) is not carried by this print and is left to the parity
+    disposition.
+rules:
+  - name: total_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Article 44 (total RAMA contribution rate on the employee's basic salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "The contribution rate due to RAMA is 15% of the employee's basic salary."
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          0.15
+
+  - name: employer_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Article 44 (employer share of the RAMA contribution)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "The employer pays 7,5%"
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          0.075
+
+  - name: employee_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Article 44 (employee share of the RAMA contribution)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "the employee pays the remaining 7,5%."
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          0.075
+
+  - name: total_rama_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Article 44 (15% of the employee's basic salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "15% of the employee's basic salary"
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          max(0, employee_basic_salary) * total_contribution_rate
+
+  - name: employee_rama_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Article 44 (employee's 7,5% share on the employee's basic salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "the employee pays the remaining 7,5%"
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          max(0, employee_basic_salary) * employee_contribution_rate
+
+  - name: employer_rama_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Article 44 (employer's 7,5% share on the employee's basic salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
+              excerpt: "The employer pays 7,5%"
+    versions:
+      - effective_from: '2001-04-27'
+        formula: |-
+          max(0, employee_basic_salary) * employer_contribution_rate

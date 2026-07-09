@@ -1,0 +1,200 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2023-048/revenue-of-decentralised-entities
+      rationale: |-
+        Law No 048/2023 of 05/09/2023 determining the sources of revenue and
+        property of decentralised entities is the gazetted primary source
+        (Official Gazette nº Special of 14/09/2023). Article 43 sets the 50%
+        deemed-expense base and Article 42 the 0/20/30% rate schedule; Article
+        60 fixes commencement on publication.
+  summary: |-
+    Rental income tax under Law No 048/2023 of 05/09/2023. Article 43(1)
+    computes taxable rental income by deducting from gross rental income 50%
+    considered as the expenses incurred on maintenance and upkeep of the rented
+    property, so taxable rental income is 50% of gross rental income. Article 42
+    then taxes taxable rental income on a bracket schedule: 0% for annual rental
+    income from one Rwandan franc to FRW 180,000; 20% from FRW 180,001 to FRW
+    1,000,000; 30% above FRW 1,000,000, each rate applying to the portion of the
+    base within its band. Article 43(2) offers an alternative base for taxpayers
+    who prove bank interest paid on a loan for construction or purchase of the
+    rented property (deducting that interest in addition to the 50%); this
+    module encodes the 50% default path only. Article 60 brings the Law into
+    force on publication (14/09/2023).
+  deferred_outputs:
+    # The corpus captures the full Official Gazette nº Special of 14/09/2023,
+    # which co-publishes Law 048 (this rental source) alongside Laws 049/050/051
+    # of 2023, so each interpretation letter (a)-(r) carries several definition
+    # subparagraphs. All are definitional text outside the rental income tax
+    # executable surface; one deferral per top-level letter covers them.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/a#interpretation_definition_a
+      reason: Interpretation subparagraph (a) (market value; supply of goods; authorised officer across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/b#interpretation_definition_b
+      reason: Interpretation subparagraph (b) (small business; capital assets; Authority/Office definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/c#interpretation_definition_c
+      reason: Interpretation subparagraph (c) (micro-enterprise; goods definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/d#interpretation_definition_d
+      reason: Interpretation subparagraph (d) (basic infrastructure; taxable goods or services; factory definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/e#interpretation_definition_e
+      reason: Interpretation subparagraph (e) (improvements; Minister definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/f#interpretation_definition_f
+      reason: Interpretation subparagraph (f) (title deed; consideration definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/g#interpretation_definition_g
+      reason: Interpretation subparagraph (g) (hybrid automotive vehicle; related persons definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/h#interpretation_definition_h
+      reason: Interpretation subparagraph (h) (plot of land; value added tax return; taxable product definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/j#interpretation_definition_j
+      reason: Interpretation subparagraph (j) (residential building; Commissioner General; transfer pricing definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/k#interpretation_definition_k
+      reason: Interpretation subparagraph (k) (industrial building; Minister definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/l#interpretation_definition_l
+      reason: Interpretation subparagraph (l) (commercial building; service definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/m#interpretation_definition_m
+      reason: Interpretation subparagraph (m) (decentralized entities; service supplied in Rwanda definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/n#interpretation_definition_n
+      reason: Interpretation subparagraph (n) (owner of a property; all-inclusive tour package definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/o#interpretation_definition_o
+      reason: Interpretation subparagraph (o) (usufruct; exported service definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/p#interpretation_definition_p
+      reason: Interpretation subparagraph (p) (land; construction definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+    - output: rw:statutes/law-2023-048/revenue-of-decentralised-entities/r#interpretation_definition_r
+      reason: Interpretation subparagraph (r) (immovable property tax; person definitions across the co-published laws) is definitional text outside the rental income tax executable surface.
+rules:
+  - name: deemed_expense_share
+    kind: parameter
+    dtype: Rate
+    source: Law No 048/2023, Article 43(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "deducting from the gross rental income 50%"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          0.50
+
+  - name: rental_income_zero_rate_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 048/2023, Article 42(a)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "0 % for an annual rental income from one Rwandan franc to FRW 180,000"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          180000
+
+  - name: rental_income_middle_rate_upper_bound
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Law No 048/2023, Article 42(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "20 % for an annual rental income from FRW 180,001 to FRW 1,000,000"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          1000000
+
+  - name: rental_income_tax_middle_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 048/2023, Article 42(b)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "20 % for an annual rental income from FRW 180,001 to FRW 1,000,000"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          0.20
+
+  - name: rental_income_tax_top_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 048/2023, Article 42(c)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "30 % for an annual rental income above FRW 1,000,000"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          0.30
+
+  - name: taxable_rental_income
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 048/2023, Article 43(1)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "The taxable rental income is obtained by deducting from the gross rental income 50% considered as the expenses incurred by the taxpayer on maintenance and upkeep of the rented property"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          deemed_expense_share * max(0, gross_rental_income)
+
+  - name: rental_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Year
+    source: Law No 048/2023, Article 42 (bracket schedule applied to the Article 43 base)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "The rental income tax rate is determined as follows:"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
+              excerpt: "This Law comes into force on the date of its publication in the Official Gazette of the Republic of Rwanda"
+    versions:
+      - effective_from: '2023-09-14'
+        formula: |-
+          rental_income_tax_middle_rate * max(0, min(taxable_rental_income, rental_income_middle_rate_upper_bound) - rental_income_zero_rate_upper_bound)
+          + rental_income_tax_top_rate * max(0, taxable_rental_income - rental_income_middle_rate_upper_bound)

@@ -1,0 +1,152 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/statute/law-2016-003/maternity-leave-benefits-scheme
+      - rw/regulation/mo-2016-007-16-10-tc/maternity-contribution-base
+    upstream_source_check:
+      status: official_parameter_source
+      checked_paths:
+        - rw/statute/law-2016-003/maternity-leave-benefits-scheme
+        - rw/regulation/mo-2016-007-16-10-tc/maternity-contribution-base
+      rationale: |-
+        Law No 003/2016 of 30/03/2016 (Official Gazette nº Special of
+        20/04/2016) is the higher authority: its Article 7 sets the maternity
+        leave benefits contribution rate (0.6% total, 0.3% employer and 0.3%
+        employee). Ministerial Order No 007/16/10/TC of 28/10/2016, made under
+        the Law, defines the gross-salary base to which the contribution is
+        subscribed (Chapter III, Article 6). Both were checked; the encoded
+        rates are carried by the Law's Article 7.
+  summary: |-
+    Maternity leave benefits scheme contributions under Law No 003/2016 of
+    30/03/2016. Article 7 sets the contribution at 0.6% of the salary to which
+    the contribution is subscribed, with the employer and the employee each
+    contributing 0.3%. This module encodes the contribution rates only; leave
+    duration, benefit calculation, and benefit payment are out of the modelled
+    contribution surface. The contribution base is the gross salary defined by
+    Ministerial Order No 007/16/10/TC of 28/10/2016, Chapter III, Article 6:
+    "The contribution due to maternity leave benefits scheme is based on the
+    gross salary composed of basic salary, earnings, paid leave allowances,
+    various allowances and bonuses, gratuities and other fringe benefits as well
+    as the cash value" of benefits in kind; the module takes contributory_salary
+    as an input carrying that base. Law No 049/2024 later amends leave duration
+    and benefits, not the contribution rate. The Law came into force on
+    publication (20/04/2016).
+rules:
+  - name: total_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "equal to zero point six percent (0.6%)"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          0.006
+
+  - name: employer_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The employer and the employee each contributes zero point three percent (0.3%)"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          0.003
+
+  - name: employee_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The employer and the employee each contributes zero point three percent (0.3%)"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          0.003
+
+  - name: employee_maternity_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The employer and the employee each contributes zero point three percent (0.3%) of the salary to which the contribution is subscribed"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          employee_contribution_rate * max(0, contributory_salary)
+
+  - name: employer_maternity_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The employer and the employee each contributes zero point three percent (0.3%) of the salary to which the contribution is subscribed"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          employer_contribution_rate * max(0, contributory_salary)
+
+  - name: total_maternity_leave_contribution
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Law No 003/2016, Article 7
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The contribution for maternity leave benefits is equal to zero point six percent (0.6%) of the salary to which the contribution is subscribed"
+          - path: versions[0].effective_from
+            kind: effective_period
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "This Law comes into force on the date of its publication in the Official Gazette of the Republic of Rwanda"
+    versions:
+      - effective_from: '2016-04-20'
+        formula: |-
+          total_contribution_rate * max(0, contributory_salary)

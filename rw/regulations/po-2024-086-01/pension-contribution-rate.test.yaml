@@ -1,0 +1,50 @@
+# Companion fixtures for the Presidential Order No 086/01 of 12/12/2024
+# mandatory pension contribution ladder (rulespec-rw#1): 12% total from
+# 1 January 2025 shared equally under Law No 05/2015 Article 8 (6%
+# employee + 6% employer), stepping to 14% total (7% + 7%) from
+# 1 January 2027. Hand arithmetic: 100,000 x 0.12 x 0.5 = 6,000;
+# 250,000 x 0.12 x 0.5 = 15,000; 100,000 x 0.14 x 0.5 = 7,000.
+
+- name: pension_contributions_100000_cy2025
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 100000
+  output:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution: 6000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution: 6000
+
+- name: pension_contributions_250000_cy2025
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 250000
+  output:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution: 15000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution: 15000
+
+- name: pension_contributions_zero
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 0
+  output:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution: 0
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution: 0
+
+- name: pension_contributions_100000_cy2027_ladder_step
+  period:
+    period_kind: month
+    start: '2027-02-01'
+    end: '2027-02-28'
+  input:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 100000
+  output:
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution: 7000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution: 7000

@@ -1,0 +1,120 @@
+# Companion fixtures for the Law No 027/2022 Article 56 employment
+# income tax schedules (rulespec-rw#1): Table 2 (CY2024 onward, the
+# RW_2025 validation surface) at eight incomes including every band
+# bound, Table 1 (CY2023) at one interior income, and the
+# casual-labourer special rate. Hand arithmetic, Table 2:
+# 80,000 -> 0.10 x 20,000 = 2,000; 100,000 -> 0.10 x 40,000 = 4,000;
+# 150,000 -> 4,000 + 0.20 x 50,000 = 14,000; 200,000 -> 4,000 +
+# 0.20 x 100,000 = 24,000; 500,000 -> 4,000 + 20,000 + 0.30 x 300,000
+# = 114,000. Table 1: 150,000 -> 0.20 x 40,000 + 0.30 x 50,000 =
+# 23,000. Casual: 100,000 -> 0.15 x 40,000 = 6,000.
+
+- name: paye_table2_zero_income
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 0
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 0
+
+- name: paye_table2_50000_zero_band
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 50000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 0
+
+- name: paye_table2_60000_bound
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 60000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 0
+
+- name: paye_table2_80000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 80000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 2000
+
+- name: paye_table2_100000_bound
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 100000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 4000
+
+- name: paye_table2_150000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 150000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 14000
+
+- name: paye_table2_200000_bound
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 200000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 24000
+
+- name: paye_table2_500000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 500000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 114000
+
+- name: paye_table1_150000_cy2023
+  period:
+    period_kind: month
+    start: '2023-06-01'
+    end: '2023-06-30'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 150000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#employment_income_tax: 23000
+
+- name: casual_labour_100000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.casual_monthly_income: 100000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#casual_labour_income_tax: 6000
+
+- name: casual_labour_60000_zero
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.casual_monthly_income: 60000
+  output:
+    rw:statutes/law-2022-027/employment-income-tax#casual_labour_income_tax: 0

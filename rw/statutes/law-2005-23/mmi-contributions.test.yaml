@@ -1,0 +1,42 @@
+# Companion fixtures for the Law No 23/2005 Military Medical Insurance rates.
+# Monthly cases in 2025-03 (RWAMOD RW_2025 applies 5% + 17.5% to the
+# military/police employment class); inside the version window opened by the
+# Article 46 commencement (12/12/2005). Hand arithmetic at 5%, 17.5%, 22.5%.
+- name: mmi_contributions_on_positive_basic_salary
+  # 5% x 100,000 = 5,000; 17.5% x 100,000 = 17,500; 22.5% x 100,000 = 22,500.
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2005-23/mmi-contributions#input.basic_salary: 100000
+  output:
+    rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution: 5000
+    rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution: 17500
+    rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription: 22500
+
+- name: mmi_contributions_on_zero_basic_salary
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2005-23/mmi-contributions#input.basic_salary: 0
+  output:
+    rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution: 0
+    rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution: 0
+    rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription: 0
+
+- name: mmi_contributions_on_fractional_result_basic_salary
+  # 5% x 214,306 = 10,715.30; 17.5% x 214,306 = 37,503.55;
+  # 22.5% x 214,306 = 48,218.85.
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2005-23/mmi-contributions#input.basic_salary: 214306
+  output:
+    rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution: 10715.30
+    rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution: 37503.55
+    rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription: 48218.85
