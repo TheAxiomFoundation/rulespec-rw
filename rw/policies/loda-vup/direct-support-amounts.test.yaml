@@ -1,0 +1,75 @@
+# Companion fixtures for the VUP Direct Support monthly household
+# entitlement schedule (VUP Operational Manual, LODA FY2024/25, §1.1.4):
+# 7,500 / 12,000 / 15,000 / 18,000 Frw for household sizes 1-4, and
+# 21,000 Frw for five or more members. Sizes 5 and 8 both select the
+# five-or-more entitlement (21,000).
+
+- name: direct_support_one_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 1
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 7500
+
+- name: direct_support_two_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 2
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 12000
+
+- name: direct_support_three_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 3
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 15000
+
+- name: direct_support_four_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 4
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 18000
+
+- name: direct_support_five_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 5
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 21000
+
+- name: direct_support_eight_member_household
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 8
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 21000
+
+- name: direct_support_zero_member_zero_branch
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:policies/loda-vup/direct-support-amounts#input.household_size: 0
+  output:
+    rw:policies/loda-vup/direct-support-amounts#monthly_direct_support: 0

@@ -8,8 +8,26 @@
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/1
-ceiling: 92
+ceiling: 98
 entries:
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_five_or_more_member_household_entitlement
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_four_member_household_entitlement
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_one_member_household_entitlement
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_three_member_household_entitlement
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_two_member_household_entitlement
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:policies/loda-vup/direct-support-amounts#monthly_direct_support
+    source: manual
+    since: 2026-07-09
   - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution
     source: manual
     since: 2026-07-09
