@@ -35,7 +35,7 @@ module:
     and benefits, not the contribution rate. The Law came into force on
     publication (20/04/2016).
 rules:
-  - name: total_contribution_rate
+  - name: maternity_total_contribution_rate
     kind: parameter
     dtype: Rate
     source: Law No 003/2016, Article 7
@@ -52,7 +52,7 @@ rules:
         formula: |-
           0.006
 
-  - name: employer_contribution_rate
+  - name: maternity_employer_contribution_rate
     kind: parameter
     dtype: Rate
     source: Law No 003/2016, Article 7
@@ -69,7 +69,7 @@ rules:
         formula: |-
           0.003
 
-  - name: employee_contribution_rate
+  - name: maternity_employee_contribution_rate
     kind: parameter
     dtype: Rate
     source: Law No 003/2016, Article 7
@@ -104,7 +104,7 @@ rules:
     versions:
       - effective_from: '2016-04-20'
         formula: |-
-          employee_contribution_rate * max(0, contributory_salary)
+          maternity_employee_contribution_rate * max(0, contributory_salary)
 
   - name: employer_maternity_contribution
     kind: derived
@@ -124,7 +124,7 @@ rules:
     versions:
       - effective_from: '2016-04-20'
         formula: |-
-          employer_contribution_rate * max(0, contributory_salary)
+          maternity_employer_contribution_rate * max(0, contributory_salary)
 
   - name: total_maternity_leave_contribution
     kind: derived
@@ -149,4 +149,4 @@ rules:
     versions:
       - effective_from: '2016-04-20'
         formula: |-
-          total_contribution_rate * max(0, contributory_salary)
+          maternity_total_contribution_rate * max(0, contributory_salary)

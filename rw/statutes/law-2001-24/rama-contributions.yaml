@@ -35,7 +35,7 @@ module:
     income) is not carried by this print and is left to the parity
     disposition.
 rules:
-  - name: total_contribution_rate
+  - name: rama_total_contribution_rate
     kind: parameter
     dtype: Rate
     source: Article 44 (total RAMA contribution rate on the employee's basic salary)
@@ -52,7 +52,7 @@ rules:
         formula: |-
           0.15
 
-  - name: employer_contribution_rate
+  - name: rama_employer_contribution_rate
     kind: parameter
     dtype: Rate
     source: Article 44 (employer share of the RAMA contribution)
@@ -69,7 +69,7 @@ rules:
         formula: |-
           0.075
 
-  - name: employee_contribution_rate
+  - name: rama_employee_contribution_rate
     kind: parameter
     dtype: Rate
     source: Article 44 (employee share of the RAMA contribution)
@@ -104,7 +104,7 @@ rules:
     versions:
       - effective_from: '2001-04-27'
         formula: |-
-          max(0, employee_basic_salary) * total_contribution_rate
+          max(0, employee_basic_salary) * rama_total_contribution_rate
 
   - name: employee_rama_contribution
     kind: derived
@@ -124,7 +124,7 @@ rules:
     versions:
       - effective_from: '2001-04-27'
         formula: |-
-          max(0, employee_basic_salary) * employee_contribution_rate
+          max(0, employee_basic_salary) * rama_employee_contribution_rate
 
   - name: employer_rama_contribution
     kind: derived
@@ -144,4 +144,4 @@ rules:
     versions:
       - effective_from: '2001-04-27'
         formula: |-
-          max(0, employee_basic_salary) * employer_contribution_rate
+          max(0, employee_basic_salary) * rama_employer_contribution_rate
