@@ -8,7 +8,7 @@
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/1
-ceiling: 98
+ceiling: 107
 entries:
   - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_five_or_more_member_household_entitlement
     source: manual
@@ -26,6 +26,18 @@ entries:
     source: manual
     since: 2026-07-09
   - legal_id: rw:policies/loda-vup/direct-support-amounts#monthly_direct_support
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_cbhi_levy
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_disposable_income
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_income_tax
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_net_salary
     source: manual
     since: 2026-07-09
   - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution
@@ -64,19 +76,34 @@ entries:
   - legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#pension_equal_sharing_fraction
     source: manual
     since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#employee_contribution_rate
+  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy_rate
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary
     source: manual
     since: 2026-07-09
   - legal_id: rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution
     source: manual
     since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#employer_contribution_rate
-    source: manual
-    since: 2026-07-09
   - legal_id: rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution
     source: manual
     since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#total_contribution_rate
+  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employee_contribution_rate
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employer_contribution_rate
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_total_contribution_rate
     source: manual
     since: 2026-07-09
   - legal_id: rw:statutes/law-2001-24/rama-contributions#total_rama_contribution
@@ -100,19 +127,19 @@ entries:
   - legal_id: rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription_rate
     source: manual
     since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employee_contribution_rate
-    source: manual
-    since: 2026-07-09
   - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employer_contribution_rate
     source: manual
     since: 2026-07-09
   - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution
     source: manual
     since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#total_contribution_rate
+  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employee_contribution_rate
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employer_contribution_rate
+    source: manual
+    since: 2026-07-09
+  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_total_contribution_rate
     source: manual
     since: 2026-07-09
   - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution
