@@ -1,0 +1,145 @@
+format: rulespec/v1
+imports:
+  - rw:statutes/law-2022-027/employment-income-tax#employment_income_tax
+  - rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution
+  - rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_paths:
+      - rw/statute/law-2022-027/establishing-taxes-on-income
+      - rw/regulation/po-2024-086-01/pension-contribution-rate
+      - rw/statute/law-2016-003/maternity-leave-benefits-scheme
+      - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+    upstream_source_check:
+      status: composed_from_grounded_modules
+      checked_paths:
+        - rw/statute/law-2022-027/establishing-taxes-on-income
+        - rw/regulation/po-2024-086-01/pension-contribution-rate
+        - rw/statute/law-2016-003/maternity-leave-benefits-scheme
+        - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+      rationale: |-
+        Composed identity over already-grounded modules: the Law No
+        027/2022 Article 56 Table 2 monthly employment income tax
+        (imported), the Presidential Order No 086/01 employee pension
+        half under the Law No 05/2015 equal-sharing rule (imported),
+        the Law No 003/2016 Article 7 employee maternity contribution
+        (imported), and the PM Order No 105/03 of 30/09/2020 Article 5
+        CBHI employee levy of 0.5% of net salary, computed here on the
+        composed net (gross less the imported tax and employee
+        contributions) because the levy's statutory base is the salary
+        net of those withholdings and imports do not rebind module
+        inputs. The levy rate parameter is grounded on the same
+        Article 5 span the levy module cites.
+  summary: |-
+    Composed single-employee monthly disposable income for CY2025 in
+    the formal private sector: gross monthly employment income, less
+    the Law 027/2022 Article 56 Table 2 tax on that income, less the
+    employee pension half (6% for CY2025) and the employee maternity
+    contribution (0.3%), less the CBHI employee levy of 0.5% applied
+    to the net salary those withholdings leave. Public-sector RAMA and
+    military MMI members carry different medical-scheme contributions
+    and are out of this pilot surface.
+rules:
+  - name: pilot_worker_cbhi_levy_rate
+    kind: parameter
+    dtype: Rate
+    source: Prime Minister's Order No 105/03 of 30/09/2020, Article 5 (the levy rate the composed pipeline applies to the composed net salary)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+              excerpt: "percent (0.5%) of the net salary of the employee"
+    versions:
+      - effective_from: '2020-10-01'
+        formula: |-
+          0.005
+
+  - name: pilot_worker_income_tax
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Imported Law No 027/2022 Article 56 Table 2 employment income tax on gross monthly employment income
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "60,001 100,000 10%"
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          employment_income_tax
+
+  - name: pilot_worker_net_salary
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Composed net salary - gross employment income less the imported Article 56 tax, the imported employee pension half and the imported employee maternity contribution
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
+              excerpt: "The rate of contribution under the mandatory pension scheme is fixed at the following percentage of the remuneration subject to contribution"
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
+              excerpt: "The employer and the employee each contributes zero point three percent (0.3%) of the salary to which the contribution is subscribed."
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          max(0, monthly_taxable_employment_income - pilot_worker_income_tax - employee_pension_contribution - employee_maternity_contribution)
+
+  - name: pilot_worker_cbhi_levy
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Prime Minister's Order No 105/03 of 30/09/2020, Article 5, applied to the composed net salary
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
+              excerpt: "The employer withholds the contribution and deposits it to the bank account of the community-based health insurance scheme."
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          pilot_worker_cbhi_levy_rate * pilot_worker_net_salary
+
+  - name: pilot_worker_disposable_income
+    kind: derived
+    entity: Person
+    dtype: Money
+    unit: RWF
+    period: Month
+    source: Composed identity - gross employment income less the imported Article 56 tax, the imported employee contribution halves and the CBHI levy on the composed net salary
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: formula
+            source:
+              corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
+              excerpt: "The withholding tax on employment income referred to in Article 15 of this Law is paid according to the rates provided in the tables"
+    versions:
+      - effective_from: '2025-01-01'
+        formula: |-
+          pilot_worker_net_salary - pilot_worker_cbhi_levy

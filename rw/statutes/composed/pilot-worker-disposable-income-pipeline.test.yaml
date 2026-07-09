@@ -1,0 +1,71 @@
+# Companion fixtures for the composed CY2025 worker pipeline
+# (rulespec-rw#1 capstone). Imports do not rebind, so each case feeds
+# the imported modules' inputs (the PAYE monthly income, the pension
+# covered remuneration and the maternity contributory salary) the same
+# gross wage. Hand arithmetic at 100,000 FRW/month: tax 4,000 (Table 2:
+# 10% x 40,000); pension employee half 6,000 (12% / 2); maternity 300
+# (0.3%); net salary 89,700; CBHI levy 448.50 (0.5%); disposable
+# 89,251.50. At 400,000: tax 84,000; pension 24,000; maternity 1,200;
+# net 290,800; levy 1,454; disposable 289,346. At 50,000: tax 0;
+# pension 3,000; maternity 150; net 46,850; levy 234.25; disposable
+# 46,615.75.
+
+- name: pilot_worker_100000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 100000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 100000
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 100000
+  output:
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 4000
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary: 89700
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy: 448.50
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 89251.50
+
+- name: pilot_worker_400000
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 400000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 400000
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 400000
+  output:
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 84000
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary: 290800
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy: 1454
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 289346
+
+- name: pilot_worker_50000_below_tax_band
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 50000
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 50000
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 50000
+  output:
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 0
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary: 46850
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy: 234.25
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 46615.75
+
+- name: pilot_worker_zero
+  period:
+    period_kind: month
+    start: '2025-03-01'
+    end: '2025-03-31'
+  input:
+    rw:statutes/law-2022-027/employment-income-tax#input.monthly_taxable_employment_income: 0
+    rw:regulations/po-2024-086-01/pension-contribution-rate#input.covered_remuneration: 0
+    rw:statutes/law-2016-003/maternity-leave-contributions#input.contributory_salary: 0
+  output:
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax: 0
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary: 0
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy: 0
+    rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income: 0

@@ -1,0 +1,28 @@
+# Rwanda employment income tax -- CY2025 (1 January - 31 December 2025)
+#
+# Composes the flagship gross-to-net calculation (rulespec-rw#1): the
+# Law No 027/2022 Article 56 Table 2 monthly schedule applied to gross
+# employment income, the Presidential Order No 086/01 employee pension
+# half (6% for CY2025 under the Law No 05/2015 equal-sharing rule), the
+# Law No 003/2016 employee maternity contribution (0.3%), the PM Order
+# No 105/03 CBHI employee levy (0.5% of the composed net salary), and
+# the composed disposable-income identity for the single private-sector
+# employee surface. Lump-sum, rental, VAT, excise, the medical-scheme
+# contributions and the transfer programmes are separate program
+# surfaces.
+
+program: rw/income-tax
+period: '2025-03'
+
+outputs:
+  - pilot_worker_income_tax
+  - pilot_worker_net_salary
+  - pilot_worker_cbhi_levy
+  - pilot_worker_disposable_income
+
+scope:
+  rw:
+    - rw/statutes/composed/pilot-worker-disposable-income-pipeline
+    - rw/statutes/law-2022-027/employment-income-tax
+    - rw/regulations/po-2024-086-01/pension-contribution-rate
+    - rw/statutes/law-2016-003/maternity-leave-contributions
