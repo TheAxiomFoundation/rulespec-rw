@@ -1,0 +1,18 @@
+# Money-atom proof-obligation ratchet.
+#
+# Each count is the number of monetary values (currency parameters,
+# currency parameter-table cells, and currency literals in derived
+# formulas) that still lack a proof atom citing a provision.
+# `axiom-encode proof-validate --require-money-atoms` fails when the
+# untracked missing count exceeds `total_allowed`. Burn this down; do
+# not raise it. Regenerate with `--emit-ratchet`.
+#
+# Seeded at 0: rulespec-rw starts with no encoded monetary values, so
+# there is no backlog to tolerate. CI enforces a strict zero allowance
+# from the first encoded module onward — every monetary value must ship
+# with a proof atom citing a Rwanda provision (Law 027/2022 establishing
+# taxes on income or an amending law, the VAT or excise duty laws, the
+# social-security laws and their implementing Orders, or official
+# programme documentation). This floor may only be lowered, never
+# raised.
+total_allowed: 0

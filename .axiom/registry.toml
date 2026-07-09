@@ -1,0 +1,10 @@
+# App-surface visibility for this repo's encodings on axiom-foundation.org
+# (encoded search, jurisdiction tiles, navigation encoding badges). The
+# encoded-search sync, runtime search fallback, and corpus navigation
+# builder all read this marker and skip experimental repos; corpus
+# provisions stay visible under their own release-scopes gating. Absent
+# file or key = "public". Parsed line-wise - keep the simple
+# key = "value" form. Flip to "public" when the listing gates in
+# README.md ("Listing gates") hold.
+[registry]
+app_visibility = "experimental"

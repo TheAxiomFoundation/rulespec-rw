@@ -1,0 +1,10 @@
+# Pinned validation toolchain (full commit SHAs; see the org
+# validate-rulespec workflow). Bump deliberately — PRs that change this
+# file trigger full-repository revalidation.
+[toolchain]
+axiom_encode_version = "0.2.1197"
+axiom_encode_ref = "55beb1607ee5b4c3ea285437118a9716e6de4939"
+axiom_rules_engine_ref = "11416c672b091513f90db3a90dd20b1689df0493"
+axiom_corpus_ref = "0a3fbb7f63eac5674b3ddf8c30e9e4bdd2674c9a"
+# Canonical-targets checkout for cross-repo validation (rulespec-us main).
+rulespec_us_ref = "40b01789d58c25e83b5ada6bcd8ce3d718395920"

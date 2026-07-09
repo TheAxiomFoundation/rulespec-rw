@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-09",
+  "jurisdiction": "rw",
+  "focus": "Rwanda tax-benefit surface: employment income tax (PAYE), lump-sum/presumptive small-business tax, rental income tax, RSSB contributions (pension, occupational hazards, maternity, RAMA, CBHI, MMI), VAT, excise duties, and the VUP Direct Support, school feeding, Girinka and fuel-subsidy transfers.",
+  "purpose": "Household-level comparison-oracle and supporting-source references for Rwanda Axiom coverage. None of these are legal authority.",
+  "oracle_scope": "A RuleSpec oracle must be an executable, pinned external calculator that accepts household-level inputs and returns household-level tax-benefit outputs comparable to Axiom outputs. Aggregate simulators, distributional reports, parameter documentation, and public model summaries are supporting references only, not oracles.",
+  "oracles": [
+    {
+      "id": "rwamod",
+      "name": "RWAMOD",
+      "url": "https://www.wider.unu.edu/project/southmod-simulating-tax-and-benefit-policies-development",
+      "local_path": "~/.axiom/oracles/southmod/bundle/SOUTHMOD_A4.0 (licensed, non-redistributable; never committed)",
+      "commit": null,
+      "model": "SOUTHMOD_A4.0",
+      "dataset": "none shipped (rw_2017_a2 / rw_2024_a1 are registered in the bundle's dataset config without data files); per-case probes run an external synthetic DataFrame under the registered dataset name against the engine's 450-variable input schema",
+      "role": "Household-level tax-benefit comparison oracle for Rwanda. RWAMOD is the SOUTHMOD tax-benefit microsimulation model for Rwanda (UNU-WIDER). Built on the EUROMOD platform; systems RW_2017-RW_2025.",
+      "coverage": [
+        "personal_income_tax",
+        "paye",
+        "presumptive_tax",
+        "rental_income_tax",
+        "social_security_contributions",
+        "health_insurance_contributions",
+        "vat",
+        "excise_duties",
+        "cash_transfers",
+        "household_disposable_income"
+      ],
+      "authority": "bundle_in_hand_per_case_probes_proven",
+      "availability_check": {
+        "checked_at": "2026-07-09",
+        "status": "bundle_in_hand_per_case_probes_proven",
+        "detail": "The licensed SOUTHMOD A4.0 bundle held under the Adhesion Agreement for the Ghana lane also carries RWAMOD with systems RW_2017-RW_2025 but ships no Rwandan input microdata (the registered dataset names have no data files; personal links; non-redistributable; the bundle must never be committed or shared). The EUROMOD-engine runtime is proven from the Ghana lane (x86_64 py3.12 venv + euromod 0.2.18 + x64 .NET 10), and per-case probes are proven for Rwanda by synthesizing the engine's input schema: a 450-variable column list assembled by seeding from a sister SOUTHMOD dataset header and adding engine-reported unknown variables until a clean RW_2025 run (recorded at ~/.axiom/oracles/southmod/harness-rw/rwamod/rw_schema.json), with an external DataFrame passed under a registered dataset name. The RW_2025 policy-surface inventory (36 policies, ~17 active instruments) is recorded at ~/.axiom/oracles/southmod/harness-rw/rwamod/inventory_result.json.",
+        "systems": "RW_2017-RW_2025",
+        "validation_system": "RW_2025 (CY2025)"
+      },
+      "bundle_sha256": "741855bd23cf4c4a0a61a80def06a078fd3f0551a452b5853a2e46c7e2486a5f"
+    }
+  ]
+}
