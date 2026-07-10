@@ -8,3 +8,4 @@
 missing_companion_tests: []
 generic_rule_names: []
 missing_source_locators: []
+validate_failures: {}
