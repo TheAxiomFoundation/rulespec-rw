@@ -1,11 +1,7 @@
 # Known validation gaps ratchet for rulespec-rw.
 #
-# Each section lists items the repository-layout / inventory checks would
-# otherwise flag, allowlisted with a recorded reason while the surface is
-# built out. Entries are a floor to burn down, never to grow: remove an
-# entry as soon as its underlying gap is closed. The repo starts with no
-# encoded RuleSpec, so there are no gaps yet.
-missing_companion_tests: []
-generic_rule_names: []
-missing_source_locators: []
+# Exact combined validator + independently executed companion failures,
+# keyed by module path. Entries are a floor to burn down, never to grow;
+# the supervised waiver audit enforces the schema and the decrement-only
+# ratchet. The repo currently has no waived failures.
 validate_failures: {}
