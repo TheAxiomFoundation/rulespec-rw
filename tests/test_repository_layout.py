@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 JURISDICTION_DIR_RE = re.compile(r"^[a-z]{2}(-[a-z0-9-]+)*$")
 CONTENT_DIRS = ("statutes", "regulations", "policies", "legislation")
 IGNORED_DIRS = {".git", ".pytest_cache", ".ruff_cache", ".venv", "__pycache__"}
-ALLOWED_ROOT_DIRS = {".axiom", ".github", "bulk", "data", "programs", "tests", "rw"}
+ALLOWED_ROOT_DIRS = {".axiom", ".github", "bulk", "data", "docs", "tests", "rw"}
 ALLOWED_ROOT_FILES = {
     ".gitignore",
     "CLAUDE.md",
@@ -121,12 +121,14 @@ def test_toolchain_pins_are_full_shas() -> None:
 
     payload = tomllib.loads((ROOT / ".axiom/toolchain.toml").read_text())
     toolchain = payload["toolchain"]
-    sha_re = re.compile(r"^[0-9a-f]{40}$")
-    for key in (
-        "axiom_encode_ref",
-        "axiom_rules_engine_ref",
-        "axiom_corpus_ref",
-        "rulespec_us_ref",
-    ):
-        assert sha_re.match(toolchain[key]), f"{key} must be a full 40-hex SHA"
-    assert re.match(r"^\d+\.\d+\.\d+$", toolchain["axiom_encode_version"])
+    assert set(toolchain) == {
+        "axiom_corpus_release",
+        "axiom_corpus_release_content_sha256",
+        "validation_waiver_set_sha256",
+    }
+    assert re.fullmatch(
+        r"[a-z]{2}-rulespec-\d{4}-\d{2}-\d{2}", toolchain["axiom_corpus_release"]
+    ), "release must be an immutable dated name"
+    sha256_re = re.compile(r"^[0-9a-f]{64}$")
+    assert sha256_re.match(toolchain["axiom_corpus_release_content_sha256"])
+    assert sha256_re.match(toolchain["validation_waiver_set_sha256"])

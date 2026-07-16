@@ -3,23 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/statute/law-2005-23/military-medical-insurance-2005
-      - rw/statute/law-2022-036/military-medical-insurance
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2005-23/military-medical-insurance-2005
-        - rw/statute/law-2022-036/military-medical-insurance
-      rationale: |-
-        Law No 23/2005 of 12/12/2005 establishing Military Medical Insurance is
-        the gazetted source whose Article 30 states the MMI subscription rates
-        (22.5% total; the government 17.5% and the insured 5% for a soldier).
-        Law No 036/2022 of 09/12/2022 establishes the current MMI framework but
-        defers the medical care scheme contribution rates to a Prime Minister's
-        Order that is not publicly digitized; the current higher authority was
-        checked, and the 2005 print remains the operative gazetted carrier of
-        the 5%/17.5% split the oracle applies for the validation year.
+    corpus_citation_path: rw/statute/law-2005-23/military-medical-insurance-2005
   summary: |-
     Military Medical Insurance (MMI) subscription rates under Law No 23/2005 of
     12/12/2005, Article 30: "Every month's subscription is twenty two and a half

@@ -4,18 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2022-027/establishing-taxes-on-income
-      rationale: |-
-        Law No 027/2022 of 20/10/2022 establishing taxes on income is the
-        gazetted primary source (Official Gazette nº Special of 28/10/2022).
-        Article 14 sets the small-enterprise 3% lump-sum tax and the
-        micro-enterprise flat-amount table, Article 3 defines the
-        small-enterprise and micro-enterprise turnover ranges, and Article 21
-        sets the agricultural/livestock exemption. Article 73 fixes
-        commencement on publication.
   summary: |-
     Presumptive (lump-sum) taxation under Law No 027/2022 of 20/10/2022. A
     person who operates a small enterprise (annual turnover FRW 12,000,001 to

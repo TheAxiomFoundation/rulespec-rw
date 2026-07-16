@@ -3,23 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
-      - rw/statute/law-2015-03/community-based-health-insurance
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2015-03/community-based-health-insurance
-        - rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
-      rationale: |-
-        Law No 03/2015 governing the organisation of the community-based
-        health insurance scheme is the higher authority delegating the
-        determination of contribution amounts and payment modalities to
-        Orders; Ministerial Order No 002/26/10/TC of 16/02/2026,
-        published in the Official Gazette no Special of 23/02/2026,
-        fixes the member premium schedule by IMIBEREHO Dynamic Social
-        Registry level under that delegation. The statute was checked
-        first and carries the delegation.
+    corpus_citation_path: rw/regulation/mo-2026-002-26-10-tc/cbhi-member-contributions
   summary: |-
     Ministerial Order No 002/26/10/TC of 16/02/2026, Article One,
     determines the CBHI member contribution in accordance with the

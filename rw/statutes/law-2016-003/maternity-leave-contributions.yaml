@@ -3,22 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/statute/law-2016-003/maternity-leave-benefits-scheme
-      - rw/regulation/mo-2016-007-16-10-tc/maternity-contribution-base
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2016-003/maternity-leave-benefits-scheme
-        - rw/regulation/mo-2016-007-16-10-tc/maternity-contribution-base
-      rationale: |-
-        Law No 003/2016 of 30/03/2016 (Official Gazette nº Special of
-        20/04/2016) is the higher authority: its Article 7 sets the maternity
-        leave benefits contribution rate (0.6% total, 0.3% employer and 0.3%
-        employee). Ministerial Order No 007/16/10/TC of 28/10/2016, made under
-        the Law, defines the gross-salary base to which the contribution is
-        subscribed (Chapter III, Article 6). Both were checked; the encoded
-        rates are carried by the Law's Article 7.
+    corpus_citation_path: rw/statute/law-2016-003/maternity-leave-benefits-scheme
   summary: |-
     Maternity leave benefits scheme contributions under Law No 003/2016 of
     30/03/2016. Article 7 sets the contribution at 0.6% of the salary to which

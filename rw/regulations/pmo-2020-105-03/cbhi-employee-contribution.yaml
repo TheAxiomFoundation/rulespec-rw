@@ -3,23 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
-      - rw/statute/law-2015-03/community-based-health-insurance
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2015-03/community-based-health-insurance
-        - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
-      rationale: |-
-        Law No 03/2015 of 02/03/2015 governing the organisation of the
-        community-based health insurance scheme is the higher authority:
-        it establishes the scheme and delegates the determination of
-        member and employee contributions to Prime Minister's Orders.
-        Prime Minister's Order No 105/03 of 30/09/2020, issued under that
-        delegation, fixes the formal-sector employee contribution at 0.5%
-        of net salary in Article 5. The statute was checked first and
-        carries the delegation; the Order carries the encoded rate.
+    corpus_citation_path: rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
   summary: |-
     Prime Minister's Order No 105/03 of 30/09/2020, Article 5, sets the
     formal-sector employee CBHI contribution at zero-point five percent

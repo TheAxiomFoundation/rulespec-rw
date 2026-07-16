@@ -4,22 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2025-011/excise-duty
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2025-011/excise-duty
-      rationale: |-
-        Law No 011/2025 of 27/05/2025 on excise duty is the primary
-        statute: Article 4 levies the duty on imported products,
-        products manufactured in Rwanda and services supplied in
-        Rwanda at the Annex rates, Article 18 repeals Law No 050/2023
-        of 05/09/2023 and Article 19 brings the law into force on
-        publication (Official Gazette no Special of 29/05/2025). The
-        Annex rows encoded here are the household-consumption surface;
-        the 2023 law's corresponding rows (cigarettes 36 percent plus
-        FRW 130 per pack, local wine 30 percent, and a bottled-water
-        row this law does not carry) governed 1 January to 28 May
-        2025, so effective dating follows this print.
   summary: |-
     Law No 011/2025 of 27/05/2025 establishes excise duty on imported
     products, products manufactured in Rwanda and services supplied

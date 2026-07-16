@@ -7,31 +7,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/statute/law-2022-027/establishing-taxes-on-income
-      - rw/regulation/po-2024-086-01/pension-contribution-rate
-      - rw/statute/law-2016-003/maternity-leave-benefits-scheme
-      - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
-    upstream_source_check:
-      status: composed_from_grounded_modules
-      checked_paths:
-        - rw/statute/law-2022-027/establishing-taxes-on-income
-        - rw/regulation/po-2024-086-01/pension-contribution-rate
-        - rw/statute/law-2016-003/maternity-leave-benefits-scheme
-        - rw/regulation/pmo-2020-105-03/cbhi-scheme-contributions
-      rationale: |-
-        Composed identity over already-grounded modules: the Law No
-        027/2022 Article 56 Table 2 monthly employment income tax
-        (imported), the Presidential Order No 086/01 employee pension
-        half under the Law No 05/2015 equal-sharing rule (imported),
-        the Law No 003/2016 Article 7 employee maternity contribution
-        (imported), and the PM Order No 105/03 of 30/09/2020 Article 5
-        CBHI employee levy of 0.5% of net salary, computed here on the
-        composed net (gross less the imported tax and employee
-        contributions) because the levy's statutory base is the salary
-        net of those withholdings and imports do not rebind module
-        inputs. The levy rate parameter is grounded on the same
-        Article 5 span the levy module cites.
+    corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
   summary: |-
     Composed single-employee monthly disposable income for CY2025 in
     the formal private sector: gross monthly employment income, less
