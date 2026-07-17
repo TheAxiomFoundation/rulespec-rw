@@ -3,5 +3,11 @@
 # Exact combined validator + independently executed companion failures,
 # keyed by module path. Entries are a floor to burn down, never to grow;
 # the supervised waiver audit enforces the schema and the decrement-only
-# ratchet. The repo currently has no waived failures.
-validate_failures: {}
+# ratchet.
+validate_failures:
+  rw/regulations/po-2024-086-01/pension-contribution-rate.yaml:
+    active:
+      expires: '2026-10-14'
+      fingerprint: sha256:0000000000000000000000000000000000000000000000000000000000000000
+      issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/10
+      owner: '@MaxGhenis'
