@@ -4,23 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2022-027/establishing-taxes-on-income
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2022-027/establishing-taxes-on-income
-      rationale: |-
-        Law No 027/2022 of 20/10/2022 establishing taxes on income is the
-        primary statute: Article 56 carries the monthly withholding
-        schedules on employment income (Table 1 for the first year
-        following the date of commencement, Table 2 from the second
-        year) and the casual-labourer special rate. Article 73
-        commences the law on publication (Official Gazette no Special
-        of 28/10/2022) and Article 8 fixes the tax period as the
-        calendar year, so the first year following commencement is
-        CY2023 and Table 2 applies from 1 January 2024. The 2023
-        amendment (Law No 051/2023) touches declaration timing and the
-        corporate rate only, and the 27 May 2025 package left these
-        brackets unamended, so the Table 2 schedule stands for CY2025.
   summary: |-
     Article 56 pays the withholding tax on employment income referred
     to in Article 15 according to two monthly tables: Table 1 ("First

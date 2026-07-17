@@ -4,18 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2001-24/rama-medical-insurance
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2001-24/rama-medical-insurance
-      rationale: |-
-        Law No 24/2001 of 27/04/2001 establishing RAMA is the primary
-        instrument. Article 44, as amended by Law n° 29/2002 of
-        19/09/2002, fixes the medical-scheme contribution rate (15% of
-        the employee's basic salary) and its equal 7,5%/7,5% split; no
-        lower order is needed to set the encoded rates. The captured text
-        is the RSSB library English consolidated print of Law No 24/2001
-        incorporating the Law No 29/2002 modifications.
   summary: |-
     Article 44 (as amended by Law n° 29/2002 of 19/09/2002) sets the RAMA
     medical-scheme contribution at 15% of the employee's basic salary,

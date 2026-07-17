@@ -3,25 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/regulation/po-2024-086-01/pension-contribution-rate
-      - rw/statute/law-2015-05/organisation-of-pension-schemes
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2015-05/organisation-of-pension-schemes
-        - rw/regulation/po-2024-086-01/pension-contribution-rate
-      rationale: |-
-        Law No 05/2015 governing the organisation of pension schemes is
-        the higher authority: its Article 8 provides that the
-        contribution rate to the mandatory pension scheme "shall be
-        determined by a Presidential Order" and fixes the sharing rule
-        ("The employer and the employee shall contribute equally to the
-        pension scheme"). Presidential Order No 086/01 of 12/12/2024,
-        issued under that delegation, fixes the total rate ladder from
-        1 January 2025 and repeals Presidential Order No 009/01 of
-        10/05/2016; the statute was checked first and carries the
-        delegation and the equal split.
+    corpus_citation_path: rw/regulation/po-2024-086-01/pension-contribution-rate
   summary: |-
     Presidential Order No 086/01 of 12/12/2024, Article One, fixes the
     mandatory pension scheme contribution rate as a percentage of the

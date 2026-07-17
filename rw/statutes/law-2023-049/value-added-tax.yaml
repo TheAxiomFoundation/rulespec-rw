@@ -4,16 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2023-049/value-added-tax
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2023-049/value-added-tax
-      rationale: |-
-        Law No 049/2023 of 05/09/2023 on value added tax is the gazetted
-        primary source (Official Gazette nº Special of 14/09/2023). Article 4
-        sets the standard rate; Article 37 fixes commencement on publication.
-        The May 2025 amendment (Law No 009/2025) does not change the standard
-        rate, so 18% stands for CY2025.
   summary: |-
     Value added tax under Law No 049/2023 of 05/09/2023. Article 4 sets the
     rate of VAT at 0% for taxable goods or services that are zero-rated and 18%

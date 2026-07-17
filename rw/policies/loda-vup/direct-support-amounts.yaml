@@ -3,28 +3,7 @@ module:
   proof_validation:
     required: true
   source_verification:
-    corpus_citation_paths:
-      - rw/policy/loda-vup/operational-manual-safety-net-fy2024-25
-      - rw/statute/law-2024-066/state-finances-fy2024-25
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2024-066/state-finances-fy2024-25
-        - rw/policy/loda-vup/operational-manual-safety-net-fy2024-25
-      rationale: |-
-        Law No 066/2024 of 26/06/2024 determining the State Finances
-        for the 2024/2025 Fiscal Year is the checked statutory higher
-        authority: it authorizes the FY2024/25 State expenditure
-        (Article 2, FRW 5,690,144,278,196) including the Annex II
-        social-protection sector support under which LODA/MINALOC
-        funds the programme, and it prescribes no transfer value. VUP
-        Direct Support transfer amounts are set administratively by
-        LODA/MINALOC through the VUP Operational Manual (Safety Net
-        Components); no gazetted instrument (law, presidential or
-        ministerial order) fixes the Direct Support household
-        entitlement schedule, so the operational manual is the
-        official programme documentation for the encoded standing
-        values.
+    corpus_citation_path: rw/policy/loda-vup/operational-manual-safety-net-fy2024-25
   summary: |-
     The VUP Direct Support monthly household entitlement schedule: the
     operational manual provides that "Household entitlement should be
@@ -41,6 +20,30 @@ module:
     is also published in the FY2023/24 folder. This module encodes the
     Direct Support amount schedule only; targeting, retargeting, appeals,
     public-works, and financial-services content are out of scope.
+  deferred_outputs:
+    - output: rw:policies/loda-vup/operational-manual-safety-net-fy2024-25/b#community_household_selection_process
+      reason: >-
+        Sub-paragraph (b) describes districts and sectors selecting and
+        adjusting the list of eligible households through community
+        meetings and sector-council approval. This module encodes only the
+        Direct Support monthly entitlement amount schedule; community-based
+        targeting and selection is a separate enrollment surface not
+        modeled here.
+    - output: rw:policies/loda-vup/operational-manual-safety-net-fy2024-25/c#household_eligibility_and_prioritization_criteria
+      reason: >-
+        Sub-paragraph (c) sets household eligibility conditions (six-month
+        sector residency and the Old Age Grant age threshold) and the
+        resource-dependent priority ranking of eligible households.
+        Eligibility determination and prioritization sit outside this
+        module's Direct Support amount schedule.
+    - output: rw:policies/loda-vup/operational-manual-safety-net-fy2024-25/e#targeting_list_administration_and_programme_financing
+      reason: >-
+        Sub-paragraph (e) covers entering the approved targeting list into
+        the monitoring system and downstream programme administration
+        (quarterly fund requests from MINECOFIN and LODA, community
+        public-works selection, and graduation). List administration and
+        programme financing are out of scope for the encoded amount
+        schedule.
 rules:
   - name: direct_support_one_member_household_entitlement
     kind: parameter

@@ -4,16 +4,6 @@ module:
     required: true
   source_verification:
     corpus_citation_path: rw/statute/law-2023-048/revenue-of-decentralised-entities
-    upstream_source_check:
-      status: official_parameter_source
-      checked_paths:
-        - rw/statute/law-2023-048/revenue-of-decentralised-entities
-      rationale: |-
-        Law No 048/2023 of 05/09/2023 determining the sources of revenue and
-        property of decentralised entities is the gazetted primary source
-        (Official Gazette nº Special of 14/09/2023). Article 43 sets the 50%
-        deemed-expense base and Article 42 the 0/20/30% rate schedule; Article
-        60 fixes commencement on publication.
   summary: |-
     Rental income tax under Law No 048/2023 of 05/09/2023. Article 43(1)
     computes taxable rental income by deducting from gross rental income 50%
