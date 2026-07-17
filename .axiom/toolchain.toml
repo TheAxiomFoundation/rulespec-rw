@@ -4,4 +4,4 @@
 [toolchain]
 axiom_corpus_release = "rw-rulespec-2026-07-16"
 axiom_corpus_release_content_sha256 = "e78f537fa45105afa12044f4062d20df59d443b893140de852ee39963030e74a"
-validation_waiver_set_sha256 = "78755dcd78eb51abbc4f65267810c9741592e952e857d6e5117c9c0d302c834f"
+validation_waiver_set_sha256 = "3b6ea99360ab94473a50ec31e0ba38164afbef9985bb430b92b62e6bcbb4befb"

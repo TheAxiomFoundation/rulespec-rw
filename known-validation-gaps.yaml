@@ -8,6 +8,6 @@ validate_failures:
   rw/regulations/po-2024-086-01/pension-contribution-rate.yaml:
     active:
       expires: '2026-10-14'
-      fingerprint: sha256:0000000000000000000000000000000000000000000000000000000000000000
+      fingerprint: sha256:16566639d0358478a25c54dfc65add3e78ed06dde8715b261aca43efff31ef3e
       issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/10
       owner: '@MaxGhenis'
