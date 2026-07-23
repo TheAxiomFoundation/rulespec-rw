@@ -1,0 +1,120 @@
+- name: qualifying first-time member and young child within grace period
+  period:
+    period_kind: custom
+    name: day
+    start: '2015-05-13'
+    end: '2015-05-13'
+  input:
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_joins_scheme_for_first_time: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_contribution_has_been_paid: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_contribution_payment: 30
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_child: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.child_age_months: 3
+    rw:statutes/law-2015-03/community-based-health-insurance#input.parents_contribution_has_been_paid: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_insurance_has_expired: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_insurance_expiry: 30
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_failed_to_enroll_in_health_insurance: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_needy_and_eligible_for_assistance: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_incites_others_to_refrain_from_enrolling: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_uses_member_card_contrary_to_law: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_scheme_staff_member: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_commits_scheme_related_misconduct: true
+  output:
+    rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_may_receive_medical_services: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_medical_services_covered_by_parents_contribution: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_contribution_required: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_continues: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_administrative_fine_applies: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#incitement_administrative_fine_applies: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_administrative_fine_applies: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_administrative_fine_applies: holds
+- name: waiting period incomplete and child above parental coverage age
+  period:
+    period_kind: custom
+    name: day
+    start: '2015-05-12'
+    end: '2015-05-12'
+  input:
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_joins_scheme_for_first_time: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_contribution_has_been_paid: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_contribution_payment: 29
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_child: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.child_age_months: 4
+    rw:statutes/law-2015-03/community-based-health-insurance#input.parents_contribution_has_been_paid: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_insurance_has_expired: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_insurance_expiry: 31
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_failed_to_enroll_in_health_insurance: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_needy_and_eligible_for_assistance: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_incites_others_to_refrain_from_enrolling: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_uses_member_card_contrary_to_law: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_scheme_staff_member: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_commits_scheme_related_misconduct: false
+  output:
+    rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_may_receive_medical_services: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_medical_services_covered_by_parents_contribution: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_contribution_required: holds
+    rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_continues: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#incitement_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_administrative_fine_applies: not_holds
+- name: unpaid first-time contribution and non-staff misconduct
+  period:
+    period_kind: custom
+    name: day
+    start: '2015-06-01'
+    end: '2015-06-01'
+  input:
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_joins_scheme_for_first_time: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_contribution_has_been_paid: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_contribution_payment: 30
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_child: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.child_age_months: 4
+    rw:statutes/law-2015-03/community-based-health-insurance#input.parents_contribution_has_been_paid: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_insurance_has_expired: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_insurance_expiry: 0
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_failed_to_enroll_in_health_insurance: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_needy_and_eligible_for_assistance: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_incites_others_to_refrain_from_enrolling: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_uses_member_card_contrary_to_law: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_scheme_staff_member: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_commits_scheme_related_misconduct: true
+  output:
+    rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_may_receive_medical_services: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_medical_services_covered_by_parents_contribution: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_contribution_required: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_continues: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#incitement_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_administrative_fine_applies: not_holds
+- name: person is not a first-time member and young child lacks paid parental contribution
+  period:
+    period_kind: custom
+    name: day
+    start: '2015-06-15'
+    end: '2015-06-15'
+  input:
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_joins_scheme_for_first_time: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_contribution_has_been_paid: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_contribution_payment: 30
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_child: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.child_age_months: 3
+    rw:statutes/law-2015-03/community-based-health-insurance#input.parents_contribution_has_been_paid: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.member_insurance_has_expired: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.days_since_insurance_expiry: 30
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_failed_to_enroll_in_health_insurance: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_needy_and_eligible_for_assistance: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_incites_others_to_refrain_from_enrolling: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_uses_member_card_contrary_to_law: false
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_is_scheme_staff_member: true
+    rw:statutes/law-2015-03/community-based-health-insurance#input.person_commits_scheme_related_misconduct: false
+  output:
+    rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_may_receive_medical_services: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_medical_services_covered_by_parents_contribution: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#child_contribution_required: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_continues: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#incitement_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_administrative_fine_applies: not_holds
+    rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_administrative_fine_applies: not_holds

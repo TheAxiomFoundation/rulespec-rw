@@ -1,0 +1,551 @@
+format: rulespec/v1
+module:
+  proof_validation:
+    required: true
+  source_verification:
+    corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+    source_sha256: 87ef6431cd76e5575a23265c7bd6921429b4e9ae8a079d95c5949ee159e2f893
+  summary: |-
+    Article 8 provides that a first-time member starts benefiting from medical care services thirty (30) days after payment; a child aged three (3) months or younger is covered by the parents' contribution, while contribution is required above that age; and medical care continues for thirty (30) days after insurance expiry. Articles 15, 17, 19, 23–27 prescribe funding rates, committee limits, deadlines, administrative-fine ranges, and transitional limits.
+rules:
+  - name: first_time_member_waiting_period_days
+    kind: parameter
+    dtype: Count
+    source: Article 8, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "thirty (30) days after the payment"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          30
+
+  - name: parental_contribution_child_age_limit_months
+    kind: parameter
+    dtype: Count
+    source: Article 8, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "a child aged three (3) months and younger"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          3
+
+  - name: post_expiry_medical_care_grace_days
+    kind: parameter
+    dtype: Count
+    source: Article 8, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "continue to receive medical care services for thirty days (30) upon expiry"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          30
+
+  - name: government_health_budget_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Article 15, paragraph 1(2)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "thirteen per cent (13%) of the domestic annual budget of the Ministry of Health"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          0.13
+
+  - name: mobilisation_committee_member_count
+    kind: parameter
+    dtype: Count
+    source: Article 17, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "At each level, the Mobilization Committee shall be composed of the following ﬁve (5) members serving on a voluntary basis"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          5
+
+  - name: mobilisation_committee_counsellor_count
+    kind: parameter
+    dtype: Count
+    source: Article 17, paragraph 1(4)
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "two (2) counsellors"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          2
+
+  - name: mobilisation_committee_term_years
+    kind: parameter
+    dtype: Count
+    source: Article 17, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "renewable term of two (2) years"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          2
+
+  - name: mobilisation_committee_regular_meetings_per_month
+    kind: parameter
+    dtype: Count
+    source: Article 19, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "hold a meeting once a month"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          1
+
+  - name: regular_meeting_minimum_notice_days
+    kind: parameter
+    dtype: Count
+    source: Article 19, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "convened at least three days (3) before it is held"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          3
+
+  - name: extraordinary_meeting_request_member_fraction
+    kind: parameter
+    dtype: Rate
+    source: Article 19, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "upon request by one-third (1/3) of its members"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          1 / 3
+
+  - name: extraordinary_meeting_minimum_notice_days
+    kind: parameter
+    dtype: Count
+    source: Article 19, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "The Mobilisation Committee may hold an extraordinary meeting whenever it is considered necessary upon the invitation of the Chairperson or the Deputy chairperson in the absence of the Chairperson, upon his/her own initiative or upon request by one-third (1/3) of its members. It shall be convened at least ﬁve (5) days before it is held"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          5
+
+  - name: claim_response_deadline_months
+    kind: parameter
+    dtype: Count
+    source: Article 14, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "respond to the claim in writing within a period of one month (1)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          1
+
+  - name: non_enrollment_fine_minimum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 23, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁve thousand Rwanda Francs (Rwf 5,000) to ten thousand Rwanda francs (Rwf 10,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          5000
+
+  - name: non_enrollment_fine_maximum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 23, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁve thousand Rwanda Francs (Rwf 5,000) to ten thousand Rwanda francs (Rwf 10,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          10000
+
+  - name: incitement_fine_minimum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 23, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁfty thousand (Rwf 50,000) to two hundred thousand Rwanda francs (Rwf 200,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          50000
+
+  - name: incitement_fine_maximum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 23, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁfty thousand (Rwf 50,000) to two hundred thousand Rwanda francs (Rwf 200,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          200000
+
+  - name: unlawful_member_card_use_fine_minimum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 24
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁve thousand (Rwf 5,000) to twenty thousand Rwanda francs (Rwf 20,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          5000
+
+  - name: unlawful_member_card_use_fine_maximum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 24
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "shall be liable to an administrative ﬁne of ﬁve thousand (Rwf 5,000) to twenty thousand Rwanda francs (Rwf 20,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          20000
+
+  - name: staff_misconduct_fine_minimum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 25
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "one hundred thousand (Rwf 100,000) to two hundred thousand Rwanda francs (Rwf 200,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          100000
+
+  - name: staff_misconduct_fine_maximum
+    kind: parameter
+    dtype: Money
+    unit: RWF
+    source: Article 25
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: amount
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "one hundred thousand (Rwf 100,000) to two hundred thousand Rwanda francs (Rwf 200,000)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          200000
+
+  - name: implementation_transition_limit_months
+    kind: parameter
+    dtype: Count
+    source: Article 27, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "period not exceeding six (6) months"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          6
+
+  - name: transitional_health_insurance_contribution_rate
+    kind: parameter
+    dtype: Rate
+    source: Article 27, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: parameter
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "contribution equivalent to one per cent (1%)"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          0.01
+
+  - name: first_time_member_may_receive_medical_services
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 8, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "A member who joins for the ﬁrst time the community-based health insurance scheme shall starts beneﬁting from medical care services thirty (30) days after the payment of his /her subscription fees"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          member_joins_scheme_for_first_time
+          and member_contribution_has_been_paid
+          and days_since_contribution_payment >= first_time_member_waiting_period_days
+
+  - name: child_medical_services_covered_by_parents_contribution
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 8, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "medical services for a child aged three (3) months and younger shall be covered by the child's parents' contribution"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_is_child
+          and child_age_months <= parental_contribution_child_age_limit_months
+          and parents_contribution_has_been_paid
+
+  - name: child_contribution_required
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 8, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "Payment of contribution shall be required for a child aged more than three (3) months."
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_is_child
+          and child_age_months > parental_contribution_child_age_limit_months
+
+  - name: post_expiry_medical_care_continues
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 8, paragraph 3
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "continue to receive medical care services for thirty days (30) upon expiry of the insurance"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          member_insurance_has_expired
+          and days_since_insurance_expiry <= post_expiry_medical_care_grace_days
+
+  - name: non_enrollment_administrative_fine_applies
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 23, paragraph 1
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "fails to enroll into health insurance scheme while he/she does not fall within the category of the needy eligible for assistance"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_failed_to_enroll_in_health_insurance
+          and not person_is_needy_and_eligible_for_assistance
+
+  - name: incitement_administrative_fine_applies
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 23, paragraph 2
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "incites others to refrain from enrolling into community-based health insurance scheme"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_incites_others_to_refrain_from_enrolling
+
+  - name: unlawful_member_card_use_administrative_fine_applies
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 24
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "uses a member's card of community-based health insurance schemes contrary to law"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_uses_member_card_contrary_to_law
+
+  - name: staff_misconduct_administrative_fine_applies
+    kind: derived
+    entity: Person
+    dtype: Judgment
+    period: Day
+    source: Article 25
+    metadata:
+      proof:
+        atoms:
+          - path: versions[0].formula
+            kind: condition
+            source:
+              corpus_citation_path: rw/statute/law-2015-03/community-based-health-insurance
+              excerpt: "staff member who commits misconduct in connection with community-based health insurance scheme"
+    versions:
+      - effective_from: '2015-04-13'
+        formula: |-
+          person_is_scheme_staff_member
+          and person_commits_scheme_related_misconduct
