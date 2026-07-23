@@ -2,332 +2,409 @@
 # classification in axiom-oracles PolicyEngine mappings. The
 # oracle-coverage gate treats these as pending_classification (visible,
 # counted, accountable) instead of silently unmapped. Ratchets both
-# ways (see the oracle-coverage-pending CI check): a new unmapped output
-# must be declared here or the gate fails; an entry that is no longer
-# unmapped (classified upstream) must be removed or the check fails.
+# ways: a new unmapped output must be declared here or the gate fails;
+# an entry that is no longer unmapped must be removed.
 # Maintained by: axiom-encode oracle-coverage-pending sync.
 version: 1
 issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/1
-ceiling: 107
+ceiling: 133
 entries:
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_five_or_more_member_household_entitlement
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_four_member_household_entitlement
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_one_member_household_entitlement
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_three_member_household_entitlement
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_two_member_household_entitlement
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:policies/loda-vup/direct-support-amounts#monthly_direct_support
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_cbhi_levy
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_disposable_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_income_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:programs/income-tax/cy-2025#pilot_worker_net_salary
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution_by_social_registry_level
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution_by_social_registry_level
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution_by_social_registry_level
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#mandatory_pension_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#pension_equal_sharing_fraction
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employee_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employer_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#rama_total_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2001-24/rama-contributions#total_rama_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employee_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employer_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_total_contribution_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#casual_labour_income_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#casual_labourer_special_withholding_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#employment_income_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#first_monthly_band_upper_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#middle_band_withholding_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#second_monthly_band_upper_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#third_monthly_band_upper_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#top_withholding_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/employment-income-tax#upper_middle_band_withholding_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#agricultural_exemption_threshold
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_maximum_annual_turnover
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_minimum_annual_turnover
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2022-027/lump-sum-regime#taxable_agricultural_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#deemed_expense_share
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_middle_rate_upper_bound
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax_middle_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax_top_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_zero_rate_upper_bound
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-049/value-added-tax#vat_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-049/value-added-tax#vat_standard_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2023-049/value-added-tax#vat_zero_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#chocolate_kg_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cigar_excise_duty
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cigar_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_excise_duty
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_pack_specific_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_retail_price_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#cosmetics_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#electronic_cigarette_cartridge_unit_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#electronic_cigarette_unit_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#flavoured_syrup_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#gas_oil_excise_duty
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#gas_oil_litre_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#large_engine_vehicle_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#lemonade_soda_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#local_beer_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#local_juice_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#local_spirits_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#local_wine_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#lubricant_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#mid_engine_vehicle_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_beer_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_fermented_beverage_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_juice_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_local_alcoholic_beverage_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_spirits_litre_value_cap
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_spirits_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_wine_litre_value_cap
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#other_wine_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#premium_fuel_excise_duty
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#premium_fuel_litre_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#small_engine_vehicle_rate
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#sweets_chewing_gum_kg_amount
-    source: manual
-    since: 2026-07-09
-  - legal_id: rw:statutes/law-2025-011/excise-duty#telephone_communications_rate
-    source: manual
-    since: 2026-07-09
+- legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_five_or_more_member_household_entitlement
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_four_member_household_entitlement
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_one_member_household_entitlement
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_three_member_household_entitlement
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:policies/loda-vup/direct-support-amounts#direct_support_two_member_household_entitlement
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:policies/loda-vup/direct-support-amounts#monthly_direct_support
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution_by_social_registry_level
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_total_annual_contribution_by_social_registry_level
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_state_paid_annual_contribution_by_social_registry_level
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/pmo-2020-105-03/cbhi-employee-contribution#employee_cbhi_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#mandatory_pension_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:regulations/po-2024-086-01/pension-contribution-rate#pension_equal_sharing_fraction
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_income_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_net_salary
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employee_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#rama_employer_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#rama_total_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2001-24/rama-contributions#total_rama_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2005-23/mmi-contributions#total_mmi_subscription_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#child_contribution_required
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#child_medical_services_covered_by_parents_contribution
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#claim_response_deadline_months
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#extraordinary_meeting_minimum_notice_days
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#extraordinary_meeting_request_member_fraction
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_may_receive_medical_services
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#first_time_member_waiting_period_days
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#government_health_budget_contribution_rate
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#implementation_transition_limit_months
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#incitement_administrative_fine_applies
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#incitement_fine_maximum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#incitement_fine_minimum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#mobilisation_committee_counsellor_count
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#mobilisation_committee_member_count
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#mobilisation_committee_regular_meetings_per_month
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#mobilisation_committee_term_years
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_administrative_fine_applies
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_fine_maximum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#non_enrollment_fine_minimum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#parental_contribution_child_age_limit_months
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_continues
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#post_expiry_medical_care_grace_days
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#regular_meeting_minimum_notice_days
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_administrative_fine_applies
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_fine_maximum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#staff_misconduct_fine_minimum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#transitional_health_insurance_contribution_rate
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_administrative_fine_applies
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_fine_maximum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2015-03/community-based-health-insurance#unlawful_member_card_use_fine_minimum
+  source: manual
+  since: '2026-07-23'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employee_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_employer_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#maternity_total_contribution_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2016-003/maternity-leave-contributions#total_maternity_leave_contribution
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#casual_labour_income_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#casual_labourer_special_withholding_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#employment_income_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#first_monthly_band_upper_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#middle_band_withholding_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#second_monthly_band_upper_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#third_monthly_band_upper_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#top_withholding_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/employment-income-tax#upper_middle_band_withholding_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#agricultural_exemption_threshold
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#micro_enterprise_flat_tax_band
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_lump_sum_tax_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_maximum_annual_turnover
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#small_enterprise_minimum_annual_turnover
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2022-027/lump-sum-regime#taxable_agricultural_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#deemed_expense_share
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_middle_rate_upper_bound
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax_middle_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_tax_top_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#rental_income_zero_rate_upper_bound
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-048/rental-income-tax#taxable_rental_income
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-049/value-added-tax#vat_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-049/value-added-tax#vat_standard_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2023-049/value-added-tax#vat_zero_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#chocolate_kg_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cigar_excise_duty
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cigar_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_excise_duty
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_pack_specific_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cigarette_retail_price_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#cosmetics_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#electronic_cigarette_cartridge_unit_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#electronic_cigarette_unit_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#flavoured_syrup_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#gas_oil_excise_duty
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#gas_oil_litre_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#large_engine_vehicle_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#lemonade_soda_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#local_beer_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#local_juice_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#local_spirits_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#local_wine_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#lubricant_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#mid_engine_vehicle_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_beer_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_fermented_beverage_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_juice_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_local_alcoholic_beverage_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_spirits_litre_value_cap
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_spirits_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_wine_litre_value_cap
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#other_wine_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#premium_fuel_excise_duty
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#premium_fuel_litre_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#small_engine_vehicle_rate
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#sweets_chewing_gum_kg_amount
+  source: manual
+  since: '2026-07-09'
+- legal_id: rw:statutes/law-2025-011/excise-duty#telephone_communications_rate
+  source: manual
+  since: '2026-07-09'
