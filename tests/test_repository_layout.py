@@ -14,6 +14,9 @@ ALLOWED_ROOT_DIRS = {".axiom", ".github", "bulk", "data", "docs", "tests", "rw"}
 ALLOWED_ROOT_FILES = {
     ".gitignore",
     "CLAUDE.md",
+    "LICENSE",
+    "LICENSE-CODE",
+    "NOTICE",
     "README.md",
     "known-missing-money-atoms.yaml",
     "known-validation-gaps.yaml",
