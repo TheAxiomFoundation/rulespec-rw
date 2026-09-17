@@ -11,6 +11,9 @@ allowed_root_directories:
 allowed_root_files:
   - .gitignore
   - CLAUDE.md
+  - LICENSE
+  - LICENSE-CODE
+  - NOTICE
   - README.md
   - known-missing-money-atoms.yaml
   - known-validation-gaps.yaml
