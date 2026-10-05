@@ -11,3 +11,8 @@ validate_failures:
       fingerprint: sha256:16566639d0358478a25c54dfc65add3e78ed06dde8715b261aca43efff31ef3e
       issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/10
       owner: '@MaxGhenis'
+    pending:
+      expires: '2027-01-03'
+      fingerprint: sha256:16566639d0358478a25c54dfc65add3e78ed06dde8715b261aca43efff31ef3e
+      issue: https://github.com/TheAxiomFoundation/rulespec-rw/issues/10
+      owner: '@MaxGhenis'
