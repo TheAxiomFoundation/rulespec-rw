@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-07-09",
+  "generated_at": "2026-10-04",
   "jurisdiction": "rw",
-  "focus": "Rwanda tax-benefit surface: employment income tax (PAYE), lump-sum/presumptive small-business tax, rental income tax, RSSB contributions (pension, occupational hazards, maternity, RAMA, CBHI, MMI), VAT, excise duties, and the VUP Direct Support, school feeding, Girinka and fuel-subsidy transfers.",
+  "focus": "Rwanda tax-benefit surface: employment income tax (PAYE) and the lump-sum regime, rental income tax, RSSB contributions (pension, occupational hazards, maternity leave, and the RAMA and MMI medical schemes), community-based health insurance (CBHI) contributions, VAT, excise duty, and the VUP Direct Support, school feeding, Girinka and fuel-subsidy programmes. The wired RWAMOD suites compare PAYE, the lump-sum tax, rental income tax, the pension, maternity, RAMA and MMI contributions, the CBHI member premiums, VAT, three excise rows, and a formal private-sector worker's monthly disposable income with its CBHI levy.",
   "purpose": "Household-level comparison-oracle and supporting-source references for Rwanda Axiom coverage. None of these are legal authority.",
   "oracle_scope": "A RuleSpec oracle must be an executable, pinned external calculator that accepts household-level inputs and returns household-level tax-benefit outputs comparable to Axiom outputs. Aggregate simulators, distributional reports, parameter documentation, and public model summaries are supporting references only, not oracles.",
   "oracles": [
     {
       "id": "rwamod",
       "name": "RWAMOD",
-      "url": "https://www.wider.unu.edu/project/southmod-simulating-tax-and-benefit-policies-development",
+      "url": "https://www.wider.unu.edu/about/rwamod-simulating-tax-and-benefit-policies-development-rwanda",
       "local_path": "~/.axiom/oracles/southmod/bundle/SOUTHMOD_A4.0 (licensed, non-redistributable; never committed)",
       "commit": null,
       "model": "SOUTHMOD_A4.0",
-      "dataset": "none shipped (rw_2017_a2 / rw_2024_a1 are registered in the bundle's dataset config without data files); per-case probes run an external synthetic DataFrame under the registered dataset name against the engine's 450-variable input schema",
-      "role": "Household-level tax-benefit comparison oracle for Rwanda. RWAMOD is the SOUTHMOD tax-benefit microsimulation model for Rwanda (UNU-WIDER). Built on the EUROMOD platform; systems RW_2017-RW_2025.",
+      "dataset": "rw_2024_a1 (registered dataset name only; the bundle ships no Rwandan microdata, so the suites run a header-only input file and every comparison household is synthetic; no survey data is used)",
+      "role": "Household-level tax-benefit comparison oracle for Rwanda, wired through per-case suites in axiom-oracles (see wired). RWAMOD is the SOUTHMOD tax-benefit microsimulation model for Rwanda (UNU-WIDER), built on the EUROMOD platform.",
       "coverage": [
         "personal_income_tax",
         "paye",
@@ -23,18 +23,166 @@
         "health_insurance_contributions",
         "vat",
         "excise_duties",
-        "cash_transfers",
         "household_disposable_income"
       ],
-      "authority": "bundle_in_hand_per_case_probes_proven",
+      "authority": "wired_per_case_parity",
       "availability_check": {
-        "checked_at": "2026-07-09",
-        "status": "bundle_in_hand_per_case_probes_proven",
-        "detail": "The licensed SOUTHMOD A4.0 bundle held under the Adhesion Agreement for the Ghana lane also carries RWAMOD with systems RW_2017-RW_2025 but ships no Rwandan input microdata (the registered dataset names have no data files; personal links; non-redistributable; the bundle must never be committed or shared). The EUROMOD-engine runtime is proven from the Ghana lane (x86_64 py3.12 venv + euromod 0.2.18 + x64 .NET 10), and per-case probes are proven for Rwanda by synthesizing the engine's input schema: a 450-variable column list assembled by seeding from a sister SOUTHMOD dataset header and adding engine-reported unknown variables until a clean RW_2025 run (recorded at ~/.axiom/oracles/southmod/harness-rw/rwamod/rw_schema.json), with an external DataFrame passed under a registered dataset name. The RW_2025 policy-surface inventory (36 policies, ~17 active instruments) is recorded at ~/.axiom/oracles/southmod/harness-rw/rwamod/inventory_result.json.",
-        "systems": "RW_2017-RW_2025",
-        "validation_system": "RW_2025 (CY2025)"
+        "checked_at": "2026-10-04",
+        "status": "wired_per_case_parity",
+        "detail": "UNU-WIDER approved Axiom's SOUTHMOD access request on 2026-07-07. RWAMOD is part of the SOUTHMOD A4.0 bundle (sha256 in bundle_sha256), held locally under the SOUTHMOD_A4.0 Adhesion Agreement (personal links; non-redistributable; never committed or shared). Under footnote 2 of the agreement UNU-WIDER provides only Stata do-files for RWAMOD's input data, so the bundle ships no Rwandan microdata and every comparison household is synthetic. RWAMOD is wired as the Rwanda household oracle by eight per-case comparison suites in TheAxiomFoundation/axiom-oracles (comparisons/rw-*.yaml, axiom-oracles#260), run on system RW_2025 through scripts/run_comparison.py on the licensed machine. They are manual-lane suites (ci: manual): clause 4 of the agreement bars giving the bundle or its input data to any third party, so they never run on shared CI runners. On 2026-10-04, against rulespec-rw 001fa4b and axiom-rules-engine 6f62c12: 42 cases, 64 comparisons, 64 matched and 0 dispositioned, every comparison within the suites' 1-FRW tolerance (largest difference 0.3 FRW). The Axiom side evaluates period 2026 in seven suites, whose configs record that every compared schedule is value-identical across 2025 and 2026, and period 2027 in rw-cbhi-tiers (see its note). Oracle-side findings are recorded in axiom-oracles axiom_oracles/data/rwamod_issues.json. rulespec-rw has no .axiom/encoding-manifests/, so none of the modules these suites compare carries an encoding manifest or is attested supervised-encoder output (rulespec-rw#18 item 1); the comparisons should be re-run after the supervised re-encode."
       },
-      "bundle_sha256": "741855bd23cf4c4a0a61a80def06a078fd3f0551a452b5853a2e46c7e2486a5f"
+      "bundle_sha256": "741855bd23cf4c4a0a61a80def06a078fd3f0551a452b5853a2e46c7e2486a5f",
+      "systems": "RW_2025 (CY2025), the system every wired suite runs (see wired)",
+      "acknowledgement": "Results are based on the tax-benefit microsimulation model for Rwanda (RWAMOD) in SOUTHMOD_A4.0, developed, maintained and managed by UNU-WIDER with SASPRI, the LSE International Inequalities Institute and local partners, run on the EUROMOD software (EM_Executable 1.0.0 via the euromod connector 0.2.18) under the registered rw_2024_a1 dataset name; the bundle ships no Rwandan microdata, so a header-only input file is built locally from the model's own variable list and every household is synthetic. The results and their interpretation are Axiom's responsibility.",
+      "wired": {
+        "oracles_prs": [
+          "TheAxiomFoundation/axiom-oracles#260"
+        ],
+        "system": "RW_2025",
+        "dataset_configuration": "rw_2024_a1 (registered dataset name only; the bundle ships no Rwandan microdata, so runs use a header-only input file and every comparison household is synthetic)",
+        "last_run": {
+          "date": "2026-10-04",
+          "axiom_rules_engine": "6f62c12",
+          "rulespec_rw": "001fa4b"
+        },
+        "totals": {
+          "suites": 8,
+          "cases": 42,
+          "comparisons": 64,
+          "matched": 64,
+          "dispositioned": 0
+        },
+        "suites": [
+          {
+            "suite": "rw-cbhi-tiers",
+            "cases": 4,
+            "comparisons": 4,
+            "matched": 4,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:regulations/mo-2026-002-26-10-tc/cbhi-member-premiums#cbhi_member_paid_annual_contribution"
+            ],
+            "rwamod_variables": [
+              "tsceehl02_s"
+            ],
+            "note": "Period-shifted schedule check: the Axiom side runs period 2027 because Ministerial Order No 002/26/10/TC starts on 2026-02-23, against RW_2025, so a match confirms the schedule amounts, not CY2025 law (ledger rwamod-cbhi-tier-premiums-gazetting-timing). The suite chooses the social-registry level paired with each case; no committed source maps incomes to registry levels."
+          },
+          {
+            "suite": "rw-contributions",
+            "cases": 4,
+            "comparisons": 20,
+            "matched": 20,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:regulations/po-2024-086-01/pension-contribution-rate#employee_pension_contribution",
+              "rw:regulations/po-2024-086-01/pension-contribution-rate#employer_pension_contribution",
+              "rw:statutes/law-2016-003/maternity-leave-contributions#employee_maternity_contribution",
+              "rw:statutes/law-2016-003/maternity-leave-contributions#employer_maternity_contribution",
+              "rw:statutes/law-2001-24/rama-contributions#employee_rama_contribution",
+              "rw:statutes/law-2001-24/rama-contributions#employer_rama_contribution",
+              "rw:statutes/law-2005-23/mmi-contributions#insured_mmi_contribution",
+              "rw:statutes/law-2005-23/mmi-contributions#government_mmi_contribution"
+            ],
+            "rwamod_variables": [
+              "tsceepi_s",
+              "tscerpi_s",
+              "tsceeml_s",
+              "tscerml_s",
+              "tsceehl_s",
+              "tscerhl_s",
+              "tsceehl01_s",
+              "tscerhl01_s"
+            ]
+          },
+          {
+            "suite": "rw-dispy",
+            "cases": 6,
+            "comparisons": 12,
+            "matched": 12,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_disposable_income",
+              "rw:statutes/composed/pilot-worker-disposable-income-pipeline#pilot_worker_cbhi_levy"
+            ],
+            "rwamod_variables": [
+              "ils_dispy",
+              "tsceehl03_s"
+            ],
+            "note": "The levy comparison tests the composed pipeline's own copy of the CBHI levy rate, not the PM Order No 105/03 module (rulespec-rw#18 item 2), and for the 2026 period the suite evaluates that rate rests on a repealed Order (item 3)."
+          },
+          {
+            "suite": "rw-excise",
+            "cases": 6,
+            "comparisons": 6,
+            "matched": 6,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/law-2025-011/excise-duty#premium_fuel_excise_duty",
+              "rw:statutes/law-2025-011/excise-duty#gas_oil_excise_duty",
+              "rw:statutes/law-2025-011/excise-duty#cigarette_excise_duty"
+            ],
+            "rwamod_variables": [
+              "tex12_s",
+              "tex13_s",
+              "tex01_s"
+            ],
+            "note": "Compares three Annex rows only. The cigarette retail value is RWAMOD's own expenditure base, bridged under a parity convention (ledger rwamod-expenditure-read-tax-inclusive-for-excise-pre-tax-for-vat), so that row tests the rate and per-pack amount, not the base; uncompared rows carry ledger findings rwamod-water-excise-row-repealed, rwamod-juice-basket-local-rate and rwamod-beer-fermented-basket-rates."
+          },
+          {
+            "suite": "rw-lump-sum",
+            "cases": 7,
+            "comparisons": 7,
+            "matched": 7,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/law-2022-027/lump-sum-regime#lump_sum_tax"
+            ],
+            "rwamod_variables": [
+              "ttn_s"
+            ]
+          },
+          {
+            "suite": "rw-paye-rate-schedule",
+            "cases": 8,
+            "comparisons": 8,
+            "matched": 8,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/law-2022-027/employment-income-tax#employment_income_tax"
+            ],
+            "rwamod_variables": [
+              "tin_s"
+            ]
+          },
+          {
+            "suite": "rw-rental",
+            "cases": 4,
+            "comparisons": 4,
+            "matched": 4,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/law-2023-048/rental-income-tax#rental_income_tax"
+            ],
+            "rwamod_variables": [
+              "tpr_s"
+            ]
+          },
+          {
+            "suite": "rw-vat",
+            "cases": 3,
+            "comparisons": 3,
+            "matched": 3,
+            "dispositioned": 0,
+            "axiom_outputs": [
+              "rw:statutes/law-2023-049/value-added-tax#vat_amount"
+            ],
+            "rwamod_variables": [
+              "tva_s"
+            ],
+            "note": "Rate check on one food item: the taxable value is RWAMOD's own VAT base, bridged under a parity convention (ledger rwamod-expenditure-read-tax-inclusive-for-excise-pre-tax-for-vat), so the suite tests the standard rate, not the base definition. VAT on excisable purchases and the bottled-water item is not compared (ledger rwamod-bottled-water-vat-charged-twice)."
+          }
+        ]
+      }
     }
   ]
 }

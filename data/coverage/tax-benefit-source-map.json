@@ -1,21 +1,255 @@
 {
-  "generated_at": "2026-07-09",
+  "generated_at": "2026-10-04",
   "jurisdiction": "rw",
   "validation_year": "CY2025",
-  "note": "RWAMOD RW_2025 active-instrument map to governing Rwanda law. Instrument keys are the model's EUROMOD-convention policy names (structure metadata only; no licensed content). Governing-law attributions are working hypotheses until the print hunt confirms them; source URLs are hunting grounds, not captured provenance - capture happens in axiom-corpus manifests.",
-  "instruments": [
-    {"instrument": "tin_rw (PAYE employment income tax, three bases)", "outputs": ["tin_s", "ttb01_s", "ttb02_s", "ttb03_s"], "governing_law": "Law no 027/2022 of 20/10/2022 establishing taxes on income, employment-income monthly schedule as amended (the amendment fixing the CY2024+ bands 0/60,000/100,000/200,000 FRW at 0/10/20/30%); casual-labour rate in the same article", "status": "not_captured"},
-    {"instrument": "ttn_rw (lump-sum/presumptive small-business tax)", "outputs": ["ttn_s"], "governing_law": "Law no 027/2022 lump-sum regime: flat amounts by annual-turnover band (60,000/120,000/210,000/300,000 FRW for 2m-12m) and 3% of turnover for 12m-20m; agriculture exemption to 12m - flat amounts possibly fixed by Ministerial Order under the law", "status": "not_captured"},
-    {"instrument": "tpr_rw (rental income tax)", "outputs": ["tpr_s"], "governing_law": "Decentralized-entities revenue law (rental income tax: taxable base = 50% of gross rental income; annual bands 0/180,001/1,000,001 FRW at 0/20/30%)", "status": "not_captured"},
-    {"instrument": "tsceepi_rw / tscerpi_rw (RSSB pension)", "outputs": ["tsceepi_s", "tscerpi_s"], "governing_law": "Pension scheme law and the 2024/2025 contribution-rate instrument raising the mandatory pension contribution to 6% employee + 6% employer from January 2025", "status": "not_captured"},
-    {"instrument": "tscerac_rw (occupational hazards)", "outputs": ["tscerac_s"], "governing_law": "Occupational hazards branch: employer 2% of covered earnings under the RSSB framework", "status": "not_captured"},
-    {"instrument": "tsceeml_rw / tscerml_rw (maternity leave benefits)", "outputs": ["tsceeml_s", "tscerml_s"], "governing_law": "Law no 003/2016 of 30/03/2016 establishing and governing the maternity leave benefits scheme: 0.3% employee + 0.3% employer", "status": "not_captured"},
-    {"instrument": "tsceehl_rw / tscerhl_rw / tscpehl_rw (medical schemes: RAMA, CBHI, MMI)", "outputs": ["tsceehl01_s", "tsceehl02_s", "tsceehl03_s", "tscerhl01_s", "tscpehl_s"], "governing_law": "RAMA medical scheme 7.5% employee + 7.5% employer (+7.5% pensioner); CBHI tiered annual premiums by monthly-income tier (3,000/5,000/8,000/20,000 FRW) plus the 0.5% formal-sector CBHI levy, fixed by Order under the CBHI law; MMI 5% member + 17.5% state", "status": "not_captured"},
-    {"instrument": "tva_rw (VAT)", "outputs": ["tva_s"], "governing_law": "Law no 049/2023 of 05/09/2023 on value added tax: 18% standard rate", "status": "not_captured"},
-    {"instrument": "tex_rw / tex01_rw (excise duties)", "outputs": ["tex_s", "tex01_s"], "governing_law": "Excise duty law as amended: ad-valorem and specific rows (cigarettes 36% + 230 FRW/pack, wines 40/70%, spirits 60/70%, beers 40/65%, soft drinks 39%, juices 10%, water 10%, fuels 183/150 FRW per litre, lubricants 37%, vehicles 5/10/15%, airtime and telecom 12%, chocolate 1,930 FRW/kg, chewing gum 322 FRW/kg, e-cigarettes 30,000 FRW/unit + cartridges 24,400 FRW/unit, cigars 160%, cosmetics 15%)", "status": "not_captured"},
-    {"instrument": "bsa_rw (VUP Direct Support)", "outputs": ["bsa_s"], "governing_law": "Administrative: LODA/MINALOC Vision 2020 Umurenge Programme (VUP) Direct Support - monthly transfer scaled by household size (7,500/12,000/15,000/18,000/21,000 FRW for 1-5+ members)", "status": "not_captured"},
-    {"instrument": "bsf_rw (school feeding)", "outputs": ["bsf_s"], "governing_law": "Administrative: MINEDUC National School Feeding Programme per-student amounts", "status": "not_captured"},
-    {"instrument": "bof_rw (fuel subsidies)", "outputs": ["bof01_s", "bof02_s"], "governing_law": "Administrative: petroleum pump-price stabilization (MININFRA/RURA pricing instruments)", "status": "not_captured"},
-    {"instrument": "bsals_rw (Girinka)", "outputs": ["bsals_s"], "governing_law": "Administrative: MINAGRI Girinka (One Cow per Poor Family) programme - in-kind cow value amortized monthly in the model", "status": "not_captured"}
+  "focus": "Rwanda tax-benefit surface: employment income tax (PAYE) and the lump-sum regime, rental income tax, RSSB contributions (pension, occupational hazards, maternity leave, and the RAMA and MMI medical schemes), community-based health insurance (CBHI) contributions, VAT, excise duty, and the VUP Direct Support, school feeding, Girinka and fuel-subsidy programmes.",
+  "scope": "rwanda_tax_benefit",
+  "jurisdiction_layers": {
+    "national": {
+      "namespace": "rw",
+      "description": "Rwanda is a unitary state. All encoded laws, orders and programme rules live under the single national rw/ namespace; there is no regional layer."
+    }
+  },
+  "purpose": "Machine-readable map from Rwanda tax-benefit tracks to their governing instruments, the RuleSpec modules that encode them and the RWAMOD comparison suites that check them. Amounts, rates and thresholds live in the modules, not here.",
+  "source_priority": [
+    "Official Gazette of the Republic of Rwanda prints (trilingual Kinyarwanda/English/French; the English text is citable), served as gazette PDFs by amategeko.gov.rw and the Ministry of Justice portal; gazette-facsimile mirrors are acceptable when the portal does not serve the print, recorded with the host in manifest metadata.",
+    "Presidential, Prime Minister's and Ministerial Orders implementing the laws.",
+    "Rwanda Revenue Authority guidance and programme manuals only after the governing instrument is identified.",
+    "RWAMOD (SOUTHMOD A4.0) as a pinned household-level comparison reference for parity tests: supporting only, never legal authority."
+  ],
+  "current_blockers": [
+    {
+      "id": "no-encoding-manifests",
+      "description": "No module carries an encoding manifest and the generated guard is off, so no module is attested supervised-encoder output.",
+      "issue": "https://github.com/TheAxiomFoundation/rulespec-rw/issues/18"
+    },
+    {
+      "id": "pension-validation-waiver-expiry",
+      "description": "The active validation waiver for the pension contribution-rate module expires on 2026-10-14; from then validate fails until the module passes and the waiver is removed in the same change.",
+      "issue": "https://github.com/TheAxiomFoundation/rulespec-rw/issues/18"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "employment-income-tax",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 027/2022 of 20/10/2022 establishing taxes on income, Article 56 (withholding tax on employment income, including the casual-labourer special rate); tax period under Article 8 and commencement under Article 73.",
+      "agency_surface": "Rwanda Revenue Authority PAYE guidance, only after the governing article is identified.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2022-027/employment-income-tax.yaml"
+      ],
+      "oracle_suites": [
+        "rw-paye-rate-schedule"
+      ]
+    },
+    {
+      "id": "lump-sum-tax",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 027/2022 of 20/10/2022 establishing taxes on income, Article 3 (small and micro-enterprise definitions), Article 14 (lump-sum tax and the micro-enterprise flat-amount table) and Article 21 (agricultural and livestock income exemption).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2022-027/lump-sum-regime.yaml"
+      ],
+      "oracle_suites": [
+        "rw-lump-sum"
+      ]
+    },
+    {
+      "id": "rental-income-tax",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 048/2023 of 05/09/2023 on the revenue of decentralised entities, Article 43 (taxable rental income) and Article 42 (rental income tax schedule).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2023-048/rental-income-tax.yaml"
+      ],
+      "oracle_suites": [
+        "rw-rental"
+      ]
+    },
+    {
+      "id": "pension-contributions",
+      "namespace": "rw",
+      "bucket": "regulations",
+      "primary_source": "Presidential Order No 086/01 of 12/12/2024, Article One (mandatory pension scheme contribution rate), shared equally between employer and employee under Law No 05/2015 of 30/03/2015, Article 8.",
+      "agency_surface": "Rwanda Social Security Board (RSSB).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/regulations/po-2024-086-01/pension-contribution-rate.yaml"
+      ],
+      "oracle_suites": [
+        "rw-contributions"
+      ],
+      "note": "Also imported by the composed disposable-income pipeline. Its active validation waiver expires on 2026-10-14 (rulespec-rw#18 item 4)."
+    },
+    {
+      "id": "occupational-hazards-contributions",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 06/2003 modifying the Decree-Law of 22 August 1974, Articles 9 and 10: an employer-paid branch whose rate is delegated to a Presidential Decree (per axiom-oracles ledger entry rwamod-occupational-hazards-rate-not-digitized).",
+      "agency_surface": "Rwanda Social Security Board (RSSB).",
+      "status": "planned",
+      "rulespec_modules": [],
+      "note": "The rate-fixing Presidential Decree is not publicly digitized, so no encodable carrier is captured."
+    },
+    {
+      "id": "maternity-leave-contributions",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 003/2016 of 30/03/2016 establishing and governing the maternity leave benefits scheme, Article 7; contribution base under Ministerial Order No 007/16/10/TC of 28/10/2016, Article 6.",
+      "agency_surface": "Rwanda Social Security Board (RSSB).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2016-003/maternity-leave-contributions.yaml"
+      ],
+      "oracle_suites": [
+        "rw-contributions"
+      ],
+      "note": "Also imported by the composed disposable-income pipeline."
+    },
+    {
+      "id": "rama-medical-scheme-contributions",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 24/2001 on the RAMA medical insurance scheme, Article 44 as amended by Law No 29/2002 of 19/09/2002 (captured from the RSSB library English consolidated print).",
+      "agency_surface": "Rwanda Social Security Board (RSSB).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2001-24/rama-contributions.yaml"
+      ],
+      "oracle_suites": [
+        "rw-contributions"
+      ],
+      "note": "Covers employer and employee contributions on the employee's basic salary; the captured print carries no provision on contributions by retired members."
+    },
+    {
+      "id": "military-medical-insurance-contributions",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 23/2005 of 12/12/2005 on Military Medical Insurance, Article 30. Law No 036/2022 of 09/12/2022 replaces it and defers the rates to a Prime Minister's Order that is not publicly digitized.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2005-23/mmi-contributions.yaml"
+      ],
+      "oracle_suites": [
+        "rw-contributions"
+      ]
+    },
+    {
+      "id": "cbhi-member-premiums",
+      "namespace": "rw",
+      "bucket": "regulations",
+      "primary_source": "Ministerial Order No 002/26/10/TC of 16/02/2026, Article One (CBHI member contribution by IMIBEREHO Dynamic Social Registry level); in force on publication, 23/02/2026 (Article 5).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/regulations/mo-2026-002-26-10-tc/cbhi-member-premiums.yaml"
+      ],
+      "oracle_suites": [
+        "rw-cbhi-tiers"
+      ],
+      "note": "This Order is the first gazetted carrier of the member premium schedule, so no gazetted instrument carries it in CY2025 (axiom-oracles ledger rwamod-cbhi-tier-premiums-gazetting-timing)."
+    },
+    {
+      "id": "cbhi-employee-levy",
+      "namespace": "rw",
+      "bucket": "regulations",
+      "primary_source": "Prime Minister's Order No 105/03 of 30/09/2020, Article 5 (formal-sector employee CBHI contribution on net salary); repealed with effect from 23/02/2026 by Prime Minister's Order No 001/03 of 16/02/2026, whose Article 5 is not yet encoded.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/regulations/pmo-2020-105-03/cbhi-employee-contribution.yaml"
+      ],
+      "note": "No suite compares this module: rw-dispy's levy comparison tests the composed pipeline's own copy of the rate (rulespec-rw#18 items 2 and 3)."
+    },
+    {
+      "id": "cbhi-scheme",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 03/2015 on community-based health insurance, Articles 8, 14, 15, 17, 19, 23 to 25 and 27 (membership waiting and grace periods, funding, mobilisation committees, deadlines, administrative fines and transition).",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2015-03/community-based-health-insurance.yaml"
+      ]
+    },
+    {
+      "id": "value-added-tax",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 049/2023 of 05/09/2023 on value added tax, Article 3 (charge) and Article 4 (rates).",
+      "agency_surface": "Rwanda Revenue Authority VAT guidance, only after the governing article is identified.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2023-049/value-added-tax.yaml"
+      ],
+      "oracle_suites": [
+        "rw-vat"
+      ]
+    },
+    {
+      "id": "excise-duty",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Law No 011/2025 of 27/05/2025 establishing excise duty, Article 4 and its Annex.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/law-2025-011/excise-duty.yaml"
+      ],
+      "oracle_suites": [
+        "rw-excise"
+      ]
+    },
+    {
+      "id": "formal-worker-disposable-income",
+      "namespace": "rw",
+      "bucket": "statutes",
+      "primary_source": "Composed from Law No 027/2022 Article 56, Presidential Order No 086/01 with Law No 05/2015 Article 8, Law No 003/2016 Article 7, and Prime Minister's Order No 105/03 Article 5 applied to the composed net salary.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/statutes/composed/pilot-worker-disposable-income-pipeline.yaml"
+      ],
+      "oracle_suites": [
+        "rw-dispy"
+      ],
+      "note": "In the scope of the CY2025 income-tax program spec (rw/programs/income-tax/cy-2025.yaml). The pipeline is not yet a module.kind composition and redefines the levy rate (rulespec-rw#18 item 2); the levy rests on a repealed Order for 2026 periods (item 3)."
+    },
+    {
+      "id": "vup-direct-support",
+      "namespace": "rw",
+      "bucket": "policies",
+      "primary_source": "Vision 2020 Umurenge Programme (VUP) Operational Manual (LODA, FY2024/25), section 1.1.4: the Direct Support household entitlement table, set administratively; no gazetted instrument fixes it.",
+      "agency_surface": "LODA / MINALOC.",
+      "status": "encoded",
+      "rulespec_modules": [
+        "rw/policies/loda-vup/direct-support-amounts.yaml"
+      ]
+    },
+    {
+      "id": "school-feeding",
+      "namespace": "rw",
+      "bucket": "policies",
+      "primary_source": "MINEDUC National School Feeding Programme rules, set administratively.",
+      "agency_surface": "MINEDUC.",
+      "status": "planned",
+      "rulespec_modules": []
+    },
+    {
+      "id": "girinka",
+      "namespace": "rw",
+      "bucket": "policies",
+      "primary_source": "MINAGRI Girinka programme rules, set administratively.",
+      "agency_surface": "MINAGRI.",
+      "status": "planned",
+      "rulespec_modules": []
+    },
+    {
+      "id": "fuel-subsidies",
+      "namespace": "rw",
+      "bucket": "policies",
+      "primary_source": "Petroleum pricing instruments that set fuel subsidies administratively.",
+      "status": "planned",
+      "rulespec_modules": []
+    }
   ]
 }
