@@ -1,18 +1,24 @@
-"""Encoding-manifest claims that were already stale on 2026-10-14.
+"""Encoding-manifest state recorded on 2026-10-14.
 
-Each entry is one claim in one manifest under .axiom/encoding-manifests/:
-the file it attests, the sha256 the manifest records for that file, the
-sha256 the file had on 2026-10-14, the sha256 of the manifest file itself,
-and the commits that changed the file after it was attested.
+KNOWN_STALE_ATTESTATIONS lists manifest claims that were already stale. Each
+entry is one claim in one manifest under .axiom/encoding-manifests/: the
+file it attests, the sha256 the manifest records for that file, the sha256
+the file had on 2026-10-14, the sha256 of the manifest file itself, and the
+commits that changed the file after it was attested.
 
-This repository had no encoding manifests on 2026-10-14, so nothing is
-listed. The list stays empty: any manifest added later must match its files.
+This repository had no stale manifest claims on 2026-10-14 (it had no
+encoding manifests at all).
 
-The list is closed and may only shrink. test_encoding_manifests.py fails if
-a listed file changes again or a listed manifest is edited while it stays a
-manual attestation. It reports an entry as resolved once the supervised
-encoder replaces the module's manifest; delete the entry then. Do not add
-entries: new drift fails CI and is fixed through the encoder.
+KNOWN_UNMANIFESTED_MODULES lists the RuleSpec modules that had no encoding
+manifest on 2026-10-14. Any other module without one fails.
+
+Both lists are closed and may only shrink. test_encoding_manifests.py fails
+if a listed file changes again, if a listed manifest is edited or removed
+other than by an encoder replacement, if a module loses its manifest, or if
+an entry is added or rewritten (each entry's digest must be in that file's
+ADOPTED_LIST_SHA256). It warns when an entry resolves, for example once the
+supervised encoder replaces a module's manifest; delete the entry then. New
+drift is fixed through the encoder, not listed.
 """
 
 from __future__ import annotations
@@ -30,7 +36,21 @@ class StaleAttestation(NamedTuple):
     change: str
 
 
-#: Number of entries when the list was adopted. The list may only shrink.
-ADOPTED_COUNT = 0
-
 KNOWN_STALE_ATTESTATIONS: tuple[StaleAttestation, ...] = ()
+
+KNOWN_UNMANIFESTED_MODULES: tuple[str, ...] = (
+    "rw/policies/loda-vup/direct-support-amounts.yaml",
+    "rw/regulations/mo-2026-002-26-10-tc/cbhi-member-premiums.yaml",
+    "rw/regulations/pmo-2020-105-03/cbhi-employee-contribution.yaml",
+    "rw/regulations/po-2024-086-01/pension-contribution-rate.yaml",
+    "rw/statutes/composed/pilot-worker-disposable-income-pipeline.yaml",
+    "rw/statutes/law-2001-24/rama-contributions.yaml",
+    "rw/statutes/law-2005-23/mmi-contributions.yaml",
+    "rw/statutes/law-2015-03/community-based-health-insurance.yaml",
+    "rw/statutes/law-2016-003/maternity-leave-contributions.yaml",
+    "rw/statutes/law-2022-027/employment-income-tax.yaml",
+    "rw/statutes/law-2022-027/lump-sum-regime.yaml",
+    "rw/statutes/law-2023-048/rental-income-tax.yaml",
+    "rw/statutes/law-2023-049/value-added-tax.yaml",
+    "rw/statutes/law-2025-011/excise-duty.yaml",
+)
