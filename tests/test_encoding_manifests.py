@@ -19,9 +19,11 @@ and adding or rewriting one means editing this guard. A removed entry could be
 put back by a later change; only review catches that.
 
 This file is also the retired-manifest inventory that axiom-encode's
-replacement path reconciles. Here, as in rulespec-dk, the inventory may name
-only manifests every one of whose attested files is gone; it is not an
-allowance for a manifest whose module or companion test still exists.
+replacement path reconciles. rulespec-dk documents its inventory as manifests
+whose primary module was retired; this test enforces a stricter rule: the
+inventory may name only manifests all of whose attested files are gone. It
+is not an allowance for a manifest whose module or companion test still
+exists.
 ``KNOWN_RETIRED_SCHEMA_MANIFESTS`` must stay a single top-level annotated
 frozenset assignment with one entry per line, and no real manifest path,
 module path or rule identity may appear anywhere else in this file. The
