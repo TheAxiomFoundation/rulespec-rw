@@ -19,10 +19,13 @@ and adding or rewriting one means editing this guard. A removed entry could be
 put back by a later change; only review catches that.
 
 This file is also the retired-manifest inventory that axiom-encode's
-replacement path reconciles. ``KNOWN_RETIRED_SCHEMA_MANIFESTS`` must stay a
-single top-level annotated frozenset assignment with one entry per line, and
-no real manifest path, module path or rule identity may appear anywhere else
-in this file. The fixtures below use the unused jurisdiction ``zz``.
+replacement path reconciles. Here, as in rulespec-dk, the inventory may name
+only manifests every one of whose attested files is gone; it is not an
+allowance for a manifest whose module or companion test still exists.
+``KNOWN_RETIRED_SCHEMA_MANIFESTS`` must stay a single top-level annotated
+frozenset assignment with one entry per line, and no real manifest path,
+module path or rule identity may appear anywhere else in this file. The
+fixtures below use the unused jurisdiction ``zz``.
 """
 
 from __future__ import annotations
@@ -318,10 +321,9 @@ def check_sync(
     file, recorded hash and current hash, and the manifest file is unchanged
     since it was listed. A listed entry resolves, with a warning, only on
     positive evidence: the file matches its unchanged, non-retired manifest
-    again, the
-    manifest and the file are both gone, or the manifest was replaced by an
-    encoder manifest (schema v5, ed25519 signature record, a claim for the
-    file). Anything else that touches a listed manifest fails.
+    again, the manifest and the file are both gone, or the manifest was
+    replaced by an encoder manifest (schema v5, ed25519 signature record, a
+    claim for the file). Anything else that touches a listed manifest fails.
     """
     by_claim = {
         (entry.manifest, entry.path, entry.attested_sha256): entry for entry in baseline
@@ -460,10 +462,12 @@ def check_adopted(
 def retired_inventory_problems(
     root: Path, claims: list[Claim], retired: frozenset[str]
 ) -> list[str]:
-    """An inventoried manifest must exist and every module it attests be gone.
+    """An inventoried manifest must exist and every file it names be gone.
 
     The inventory takes a manifest out of the sync check, so it may hold only
-    manifests whose primary modules were retired.
+    manifests whose modules and companion tests were all retired. A claim
+    marked deleted counts too: nothing else would compare it with a file that
+    still exists.
     """
     problems = []
     for rel in sorted(retired):
@@ -475,14 +479,12 @@ def retired_inventory_problems(
             claim.path
             for claim in claims
             if claim.manifest == rel
-            and not claim.deleted
             and is_synced_path(claim.path)
-            and not claim.path.endswith(".test.yaml")
             and ((root / claim.path).exists() or (root / claim.path).is_symlink())
         )
         if live:
             problems.append(
-                f"inventory names {rel}, but the module it attests still exists: "
+                f"inventory names {rel}, but files it names still exist: "
                 + ", ".join(live)
             )
     return problems
@@ -867,13 +869,29 @@ def test_retired_inventory_requires_the_module_to_be_gone(tmp_path: Path) -> Non
     root = _repo(tmp_path)
     claims, _problems = manifest_claims(root)
     (failure,) = retired_inventory_problems(root, claims, frozenset({MANIFEST}))
-    assert "still exists" in failure
+    assert "still exist" in failure
     (root / MODULE).unlink()
+    claims, _problems = manifest_claims(root)
+    (failure,) = retired_inventory_problems(root, claims, frozenset({MANIFEST}))
+    assert COMPANION in failure  # the companion test is still there
+    (root / COMPANION).unlink()
     claims, _problems = manifest_claims(root)
     assert retired_inventory_problems(root, claims, frozenset({MANIFEST})) == []
     missing = f"{MANIFEST_DIR}/zz/statutes/example/missing.json"
     (failure,) = retired_inventory_problems(root, claims, frozenset({missing}))
     assert "missing manifest" in failure
+
+
+def test_retired_inventory_counts_companion_only_and_deleted_claims(
+    tmp_path: Path,
+) -> None:
+    root = _repo(tmp_path)
+    _write_manifest(root, {COMPANION: CASES})  # attests only the companion
+    claims, _problems = manifest_claims(root)
+    assert retired_inventory_problems(root, claims, frozenset({MANIFEST}))
+    _write_manifest(root, {MODULE: None, COMPANION: None})  # hand-marked deleted
+    claims, _problems = manifest_claims(root)
+    assert len(retired_inventory_problems(root, claims, frozenset({MANIFEST}))) == 1
 
 
 def test_removing_an_in_sync_manifest_fails(tmp_path: Path) -> None:
