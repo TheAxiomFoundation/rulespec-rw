@@ -13,9 +13,10 @@ synced, and assembled ``programs/`` specs are left out, as in rulespec-us.
 Two lists in ``known_stale_attestations.py`` record the state found when this
 test was added: manifest claims that were already stale, by exact bytes, and
 modules that had no manifest. Listing a claim records the drift; it does not
-attest the file. Both lists may only shrink: every entry must carry a digest
-in ``ADOPTED_LIST_SHA256`` below, so adding or rewriting an entry means
-editing this guard.
+attest the file. Every entry must carry a digest in ``ADOPTED_LIST_SHA256``
+below, so the lists cannot gain an entry that was not recorded on 2026-10-14,
+and adding or rewriting one means editing this guard. A removed entry could be
+put back by a later change; only review catches that.
 
 This file is also the retired-manifest inventory that axiom-encode's
 replacement path reconciles. ``KNOWN_RETIRED_SCHEMA_MANIFESTS`` must stay a
@@ -316,7 +317,8 @@ def check_sync(
     A stale claim passes only when ``baseline`` lists exactly that manifest,
     file, recorded hash and current hash, and the manifest file is unchanged
     since it was listed. A listed entry resolves, with a warning, only on
-    positive evidence: the file matches its unchanged manifest again, the
+    positive evidence: the file matches its unchanged, non-retired manifest
+    again, the
     manifest and the file are both gone, or the manifest was replaced by an
     encoder manifest (schema v5, ed25519 signature record, a claim for the
     file). Anything else that touches a listed manifest fails.
@@ -401,6 +403,22 @@ def check_sync(
                     "module through the supervised encoder."
                 )
                 continue
+        else:
+            # Unchanged manifest whose claim was not seen as stale: the only
+            # evidence of resolution is the attested bytes, checked here.
+            target = root / entry.path
+            if (
+                entry.manifest in retired
+                or _has_symlink(root, entry.path)
+                or not target.is_file()
+                or _sha256(target) != entry.attested_sha256
+            ):
+                failures.append(
+                    f"{entry.manifest}: the listed stale claim for {entry.path} "
+                    "was not checked (is the manifest in the retired inventory?) "
+                    "and the file does not match its manifest."
+                )
+                continue
         resolved.append(entry)
     return SyncResult(tuple(failures), tuple(known), tuple(resolved))
 
@@ -436,6 +454,37 @@ def check_adopted(
     for path in unmanifested:
         if unmanifested_entry_sha256(path) not in adopted:
             problems.append(f"unmanifested entry {path} was added")
+    return problems
+
+
+def retired_inventory_problems(
+    root: Path, claims: list[Claim], retired: frozenset[str]
+) -> list[str]:
+    """An inventoried manifest must exist and every module it attests be gone.
+
+    The inventory takes a manifest out of the sync check, so it may hold only
+    manifests whose primary modules were retired.
+    """
+    problems = []
+    for rel in sorted(retired):
+        manifest = root / rel
+        if manifest.is_symlink() or not manifest.is_file():
+            problems.append(f"inventory names a missing manifest: {rel}")
+            continue
+        live = sorted(
+            claim.path
+            for claim in claims
+            if claim.manifest == rel
+            and not claim.deleted
+            and is_synced_path(claim.path)
+            and not claim.path.endswith(".test.yaml")
+            and ((root / claim.path).exists() or (root / claim.path).is_symlink())
+        )
+        if live:
+            problems.append(
+                f"inventory names {rel}, but the module it attests still exists: "
+                + ", ".join(live)
+            )
     return problems
 
 
@@ -487,7 +536,7 @@ def test_no_module_loses_its_manifest() -> None:
         )
 
 
-def test_known_lists_only_shrink() -> None:
+def test_known_lists_hold_only_adopted_entries() -> None:
     keys = [(e.manifest, e.path, e.attested_sha256) for e in KNOWN_STALE_ATTESTATIONS]
     assert len(keys) == len(set(keys)), "duplicate stale entries"
     assert len(KNOWN_UNMANIFESTED_MODULES) == len(set(KNOWN_UNMANIFESTED_MODULES))
@@ -508,15 +557,16 @@ def test_known_lists_only_shrink() -> None:
         KNOWN_STALE_ATTESTATIONS, KNOWN_UNMANIFESTED_MODULES, ADOPTED_LIST_SHA256
     )
     assert problems == [], (
-        "known_stale_attestations.py may only shrink; new drift and new "
-        "unmanifested modules are fixed through the supervised encoder:\n"
-        + "\n".join(problems)
+        "known_stale_attestations.py may hold only entries recorded on "
+        "2026-10-14; new drift and new unmanifested modules are fixed through "
+        "the supervised encoder:\n" + "\n".join(problems)
     )
 
 
-def test_retired_inventory_entries_are_real() -> None:
-    for rel in sorted(KNOWN_RETIRED_SCHEMA_MANIFESTS):
-        assert (ROOT / rel).is_file(), f"inventory names a missing manifest: {rel}"
+def test_retired_inventory_names_only_orphaned_manifests() -> None:
+    claims, _problems = manifest_claims(ROOT)
+    problems = retired_inventory_problems(ROOT, claims, KNOWN_RETIRED_SCHEMA_MANIFESTS)
+    assert problems == [], "\n".join(problems)
 
 
 def test_no_unknown_orphaned_manifests() -> None:
@@ -799,6 +849,31 @@ def test_restored_bytes_resolve_a_listed_claim(tmp_path: Path) -> None:
     (root / MODULE).write_bytes(ORIGINAL)
     result = _sync(root, (entry,))
     assert result.failures == () and result.resolved == (entry,)
+
+
+def test_retiring_a_listed_manifest_does_not_resolve_its_claim(
+    tmp_path: Path,
+) -> None:
+    root = _repo(tmp_path, module=EDITED)
+    entry = _listed(root)
+    claims, problems = manifest_claims(root)
+    assert problems == []
+    result = check_sync(root, claims, (entry,), frozenset({MANIFEST}))
+    assert result.resolved == () and len(result.failures) == 1
+    assert retired_inventory_problems(root, claims, frozenset({MANIFEST}))
+
+
+def test_retired_inventory_requires_the_module_to_be_gone(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    claims, _problems = manifest_claims(root)
+    (failure,) = retired_inventory_problems(root, claims, frozenset({MANIFEST}))
+    assert "still exists" in failure
+    (root / MODULE).unlink()
+    claims, _problems = manifest_claims(root)
+    assert retired_inventory_problems(root, claims, frozenset({MANIFEST})) == []
+    missing = f"{MANIFEST_DIR}/zz/statutes/example/missing.json"
+    (failure,) = retired_inventory_problems(root, claims, frozenset({missing}))
+    assert "missing manifest" in failure
 
 
 def test_removing_an_in_sync_manifest_fails(tmp_path: Path) -> None:

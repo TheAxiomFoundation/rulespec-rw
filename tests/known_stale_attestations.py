@@ -6,19 +6,21 @@ file it attests, the sha256 the manifest records for that file, the sha256
 the file had on 2026-10-14, the sha256 of the manifest file itself, and the
 commits that changed the file after it was attested.
 
-This repository had no stale manifest claims on 2026-10-14 (it had no
-encoding manifests at all).
+This repository had no encoding manifests on 2026-10-14, so nothing is
+listed. The list stays empty: any manifest added later must match its files.
 
 KNOWN_UNMANIFESTED_MODULES lists the RuleSpec modules that had no encoding
 manifest on 2026-10-14. Any other module without one fails.
 
-Both lists are closed and may only shrink. test_encoding_manifests.py fails
-if a listed file changes again, if a listed manifest is edited or removed
-other than by an encoder replacement, if a module loses its manifest, or if
-an entry is added or rewritten (each entry's digest must be in that file's
-ADOPTED_LIST_SHA256). It warns when an entry resolves, for example once the
-supervised encoder replaces a module's manifest; delete the entry then. New
-drift is fixed through the encoder, not listed.
+Both lists are closed. Every entry must carry a digest in
+test_encoding_manifests.py's ADOPTED_LIST_SHA256, so the lists cannot gain
+an entry that was not recorded on 2026-10-14; a removed entry could be put
+back later, and only review catches that. The test fails if a listed file
+changes again, if a listed manifest is edited, removed or retired other than
+by an encoder replacement, or if a module loses its manifest. It warns when
+an entry resolves, for example once the supervised encoder replaces a
+module's manifest; delete the entry then. New drift is fixed through the
+encoder, not listed.
 """
 
 from __future__ import annotations
