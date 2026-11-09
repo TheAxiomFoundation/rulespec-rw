@@ -161,6 +161,8 @@ def encoder_pinned_at(commit: str) -> str | None:
 
 def test_the_recorded_pins_match_repository_history() -> None:
     require_git_history()
+    # Control: the ancestry check refuses a commit this history lacks.
+    assert not in_head_history("0" * 40)
     for encoder_ref, repository_commit in SKIPPING_ENCODER_PIN_HISTORY.items():
         assert in_head_history(repository_commit), repository_commit
         assert encoder_pinned_at(repository_commit) == encoder_ref, repository_commit
@@ -203,8 +205,15 @@ def write_toolchain_pin(root: Path, encoder_ref: str) -> None:
 PIN_LAYOUTS = {"workflow": write_workflow_pin, "toolchain": write_toolchain_pin}
 
 
+# The encoder reads manifests from APPLIED_ENCODING_MANIFEST_DIR,
+# Path(".axiom") / "encoding-manifests" in src/axiom_encode/cli.py at every
+# listed pin. The fixtures write there, apart from MANIFEST_ROOT, so a gate
+# that looks anywhere else fails them.
+ENCODER_MANIFEST_DIR = Path(".axiom") / "encoding-manifests"
+
+
 def write_manifest(root: Path, relative: str, content: bytes) -> None:
-    path = root / MANIFEST_ROOT / relative
+    path = root / ENCODER_MANIFEST_DIR / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(content)
 
@@ -314,7 +323,7 @@ def test_a_link_named_like_a_manifest_gets_a_line(tmp_path: Path) -> None:
     # git tracks a symbolic link as a file, so the guard would see this path.
     encoder_ref = sorted(ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES)[0]
     write_workflow_pin(tmp_path, encoder_ref)
-    link = tmp_path / MANIFEST_ROOT / "rw/statutes/a/rule.json"
+    link = tmp_path / ENCODER_MANIFEST_DIR / "rw/statutes/a/rule.json"
     link.parent.mkdir(parents=True)
     link.symlink_to(tmp_path / "nowhere.json")
     assert manifests_the_guard_skips(tmp_path) == [
@@ -342,7 +351,7 @@ def test_a_tree_without_manifests_passes_while_the_guard_skips_them(
 ) -> None:
     write_workflow_pin(tmp_path, sorted(ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES)[0])
     assert manifests_the_guard_skips(tmp_path) == []
-    (tmp_path / MANIFEST_ROOT).mkdir(parents=True)
+    (tmp_path / ENCODER_MANIFEST_DIR).mkdir(parents=True)
     assert manifests_the_guard_skips(tmp_path) == []
 
 
