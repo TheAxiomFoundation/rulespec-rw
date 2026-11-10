@@ -57,9 +57,9 @@ SKIPPING_ENCODER_PIN_HISTORY = {
     "185b2457c16df11bf328fd6257a5b7fbe3fe7534": "2539b05daf6e52ee6eb25916de8b780b713754e7",
     "b9d376684cfb5e86202daa3451b8fc716703ed19": "62eef4b94d2525611be4f575a91808ef27d7234d",
 }
-# rulespec-rw's main when this gate was written. A test checks that the
-# encoders listed above are exactly the ones repository-checks.yml pinned in
-# this commit's history, so the list leaves out no earlier pin.
+# The rulespec-rw main commit this gate starts from. A test checks that
+# the encoders listed above are exactly the ones repository-checks.yml pinned
+# in this commit's history, so the list leaves out no earlier pin.
 PIN_HISTORY_RECORDED_THROUGH = "f15605dc4b856d6b5318da1b188c6f8f1cd655ee"
 
 
