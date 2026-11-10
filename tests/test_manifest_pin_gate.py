@@ -1,11 +1,11 @@
 """Refuse encoding manifests while CI runs an encoder that skips them.
 
 In CI, axiom-encode's `guard-generated` reads the manifests under
-`.axiom/encoding-manifests/`. At every axiom-encode commit before #1853
-(fa0da5e8), its diff mode returns before it lists or verifies a single
-manifest when a change touches no protected RuleSpec YAML. A pull request
-that adds or edits only manifests therefore passes that guard with no
-signature, file-hash or producer check.
+`.axiom/encoding-manifests/`. At each axiom-encode commit listed below, all
+older than #1853 (fa0da5e8), its diff mode returns before it lists or
+verifies a single manifest when a change touches no protected RuleSpec YAML.
+A pull request that adds or edits only manifests therefore passes that guard
+with no signature, file-hash or producer check.
 
 While `.github/workflows/repository-checks.yml` pins an encoder in
 ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES, `manifests_the_guard_skips` gives
@@ -18,6 +18,7 @@ the same gate.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import tomllib
@@ -46,8 +47,8 @@ ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES = frozenset(
         "b9d376684cfb5e86202daa3451b8fc716703ed19",  # cli.py:16830-16831
     }
 )
-# From axiom-encode#1853 on, the guard verifies changed manifests even when no
-# RuleSpec YAML changes.
+# axiom-encode#1853 narrowed that early return: from this commit on, the guard
+# verifies changed manifests even when no RuleSpec YAML changes.
 FIRST_ENCODER_THAT_CHECKS_MANIFEST_ONLY_CHANGES = (
     "fa0da5e834214052cc8d9d381e25ff409dd1062f"
 )
@@ -57,9 +58,10 @@ SKIPPING_ENCODER_PIN_HISTORY = {
     "185b2457c16df11bf328fd6257a5b7fbe3fe7534": "2539b05daf6e52ee6eb25916de8b780b713754e7",
     "b9d376684cfb5e86202daa3451b8fc716703ed19": "62eef4b94d2525611be4f575a91808ef27d7234d",
 }
-# The rulespec-rw main commit this gate starts from. A test checks that
-# the encoders listed above are exactly the ones repository-checks.yml pinned
-# in this commit's history, so the list leaves out no earlier pin.
+# The rulespec-rw main commit this gate starts from. A test reads
+# repository-checks.yml at every commit in this commit's history, merged
+# branches included, and checks that the encoders listed above are exactly the
+# ones it pinned, so the list leaves out no earlier pin.
 PIN_HISTORY_RECORDED_THROUGH = "f15605dc4b856d6b5318da1b188c6f8f1cd655ee"
 
 
@@ -131,9 +133,33 @@ def test_each_skipping_encoder_has_a_recorded_pin() -> None:
     assert COMMIT_RE.fullmatch(PIN_HISTORY_RECORDED_THROUGH)
 
 
-def git(*args: str) -> subprocess.CompletedProcess[str]:
+# Inside a git hook these point git at the hook's repository and index, in
+# whatever directory a command runs.
+REPOSITORY_SELECTING_GIT_VARIABLES = frozenset(
+    {
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_COMMON_DIR",
+    }
+)
+
+
+def git(*args: str, root: Path = ROOT) -> subprocess.CompletedProcess[str]:
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in REPOSITORY_SELECTING_GIT_VARIABLES
+    }
     return subprocess.run(
-        ["git", *args], cwd=ROOT, capture_output=True, text=True, check=False
+        ["git", *args],
+        cwd=root,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
     )
 
 
@@ -149,14 +175,29 @@ def in_head_history(commit: str) -> bool:
     return git("merge-base", "--is-ancestor", commit, "HEAD").returncode == 0
 
 
-def encoder_pinned_at(commit: str) -> str | None:
+def encoder_pinned_at(commit: str, root: Path = ROOT) -> str | None:
     """Return the encoder repository-checks.yml pinned at commit, if any."""
-    shown = git("show", f"{commit}:{WORKFLOW.as_posix()}")
+    shown = git("show", f"{commit}:{WORKFLOW.as_posix()}", root=root)
     if shown.returncode != 0:
         return None
     workflow = yaml.safe_load(shown.stdout) or {}
     validate = (workflow.get("jobs") or {}).get("validate") or {}
     return (validate.get("with") or {}).get("axiom-encode-ref")
+
+
+def encoders_pinned_through(commit: str, root: Path = ROOT) -> set[str]:
+    """Return every encoder repository-checks.yml pinned in commit's history.
+
+    This reads the workflow at every commit reachable from commit. A walk
+    limited to the workflow's path would simplify history: git drops a merged
+    branch whose merge leaves the workflow as the first parent had it, and with
+    it any pin that branch made and then undid. A pin passed through
+    .axiom/workflow-toolchain.toml would show here as the workflow's
+    expression, which no listed encoder equals.
+    """
+    listed = git("rev-list", commit, root=root)
+    assert listed.returncode == 0, listed.stderr
+    return {encoder_pinned_at(each, root) for each in listed.stdout.split()} - {None}
 
 
 def test_the_recorded_pins_match_repository_history() -> None:
@@ -173,12 +214,67 @@ def test_the_recorded_pins_match_repository_history() -> None:
 def test_the_list_names_every_encoder_pinned_through_the_recorded_commit() -> None:
     require_git_history()
     assert in_head_history(PIN_HISTORY_RECORDED_THROUGH)
-    log = git(
-        "log", "--format=%H", PIN_HISTORY_RECORDED_THROUGH, "--", WORKFLOW.as_posix()
+    assert (
+        encoders_pinned_through(PIN_HISTORY_RECORDED_THROUGH)
+        == ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES
     )
-    assert log.returncode == 0, log.stderr
-    pinned = {encoder_pinned_at(commit) for commit in log.stdout.split()} - {None}
-    assert pinned == ENCODERS_THAT_SKIP_MANIFEST_ONLY_CHANGES
+
+
+# Fixture repositories commit as a fixed identity and read no user or system
+# git configuration, so signing settings, hooks or a missing identity on the
+# machine running the tests change nothing.
+FIXTURE_GIT_ENVIRONMENT = {
+    "GIT_CONFIG_GLOBAL": os.devnull,
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "GIT_AUTHOR_NAME": "Pin gate fixture",
+    "GIT_AUTHOR_EMAIL": "pin-gate-fixture@example.invalid",
+    "GIT_COMMITTER_NAME": "Pin gate fixture",
+    "GIT_COMMITTER_EMAIL": "pin-gate-fixture@example.invalid",
+}
+
+
+def fixture_git(repository: Path, *args: str) -> str:
+    # Dropping every inherited GIT_* variable keeps a git hook's GIT_DIR or
+    # GIT_INDEX_FILE from aiming these commits at the hook's repository.
+    environment = {
+        key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+    }
+    done = subprocess.run(
+        ["git", *args],
+        cwd=repository,
+        env={**environment, **FIXTURE_GIT_ENVIRONMENT},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert done.returncode == 0, done.stderr
+    return done.stdout
+
+
+def commit_fixture_pin(repository: Path, encoder_ref: str) -> None:
+    write_workflow_pin(repository, encoder_ref)
+    fixture_git(repository, "add", "--all")
+    fixture_git(repository, "commit", "--quiet", "--message", f"Pin {encoder_ref[:8]}")
+
+
+def test_the_pin_scan_reads_a_merged_branch_that_undid_its_pin(tmp_path: Path) -> None:
+    # rulespec-tz#18 pinned ba9c705e on a branch, restored 164abed9 on the same
+    # branch and merged it, so the merge left repository-checks.yml as main had
+    # it. This builds that history.
+    kept, undone = "1" * 40, "2" * 40
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    fixture_git(repository, "init", "--quiet", "--initial-branch=main")
+    commit_fixture_pin(repository, kept)
+    fixture_git(repository, "switch", "--quiet", "--create", "branch")
+    commit_fixture_pin(repository, undone)
+    commit_fixture_pin(repository, kept)
+    fixture_git(repository, "switch", "--quiet", "main")
+    fixture_git(repository, "merge", "--quiet", "--no-ff", "-m", "Merge branch", "branch")
+    # Control: a walk limited to the workflow's path drops the branch.
+    walked = fixture_git(repository, "rev-list", "HEAD", "--", WORKFLOW.as_posix())
+    assert {encoder_pinned_at(each, repository) for each in walked.split()} == {kept}
+    assert encoders_pinned_through("HEAD", repository) == {kept, undone}
 
 
 def write_workflow_pin(root: Path, encoder_ref: str) -> None:
