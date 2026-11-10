@@ -277,6 +277,23 @@ def test_the_pin_scan_reads_a_merged_branch_that_undid_its_pin(tmp_path: Path) -
     assert encoders_pinned_through("HEAD", repository) == {kept, undone}
 
 
+def test_git_commands_stay_in_their_repository_inside_a_git_hook(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # A git hook exports GIT_DIR and GIT_INDEX_FILE for its own repository.
+    hook_repository = tmp_path / "hook"
+    hook_repository.mkdir()
+    fixture_git(hook_repository, "init", "--quiet", "--initial-branch=main")
+    monkeypatch.setenv("GIT_DIR", str(hook_repository / ".git"))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(hook_repository / ".git" / "index"))
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    fixture_git(repository, "init", "--quiet", "--initial-branch=main")
+    commit_fixture_pin(repository, "1" * 40)
+    assert encoders_pinned_through("HEAD", repository) == {"1" * 40}
+    assert fixture_git(hook_repository, "rev-list", "--all") == ""
+
+
 def write_workflow_pin(root: Path, encoder_ref: str) -> None:
     """Pin the encoder in repository-checks.yml, as this repository does."""
     workflow = root / WORKFLOW
