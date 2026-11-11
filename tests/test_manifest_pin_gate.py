@@ -17,6 +17,7 @@ the same gate.
 
 from __future__ import annotations
 
+import functools
 import json
 import os
 import re
@@ -133,30 +134,61 @@ def test_each_skipping_encoder_has_a_recorded_pin() -> None:
     assert COMMIT_RE.fullmatch(PIN_HISTORY_RECORDED_THROUGH)
 
 
-# Inside a git hook these point git at the hook's repository and index, in
-# whatever directory a command runs.
-REPOSITORY_SELECTING_GIT_VARIABLES = frozenset(
+# git's list must name each of these, or git() refuses to run: each one
+# changes which repository, index, objects or history a git command reads.
+GIT_VARIABLES_THE_LIST_MUST_NAME = frozenset(
     {
-        "GIT_DIR",
-        "GIT_WORK_TREE",
-        "GIT_INDEX_FILE",
-        "GIT_OBJECT_DIRECTORY",
         "GIT_ALTERNATE_OBJECT_DIRECTORIES",
         "GIT_COMMON_DIR",
+        "GIT_DIR",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_SHALLOW_FILE",
+        "GIT_WORK_TREE",
     }
 )
 
 
+@functools.cache
+def repository_local_git_variables() -> frozenset[str]:
+    """Return the GIT_* variables git lists as local to a repository.
+
+    git exports some of these to a hook so the hook's commands find its
+    repository; a pre-commit hook gets GIT_INDEX_FILE, for one. Left in place,
+    they aim git at the hook's repository in whatever directory a command runs.
+    githooks(5) clears `git rev-parse --local-env-vars` before running git in
+    another repository, and this list is that one.
+    """
+    listed = subprocess.run(
+        ["git", "rev-parse", "--local-env-vars"],
+        env={
+            key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+        },
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert listed.returncode == 0, listed.stderr
+    variables = frozenset(listed.stdout.split())
+    # A short or empty list would leave a hook's variables in place.
+    missing = GIT_VARIABLES_THE_LIST_MUST_NAME - variables
+    assert not missing, f"git rev-parse --local-env-vars omits {sorted(missing)}"
+    return variables
+
+
+def git_environment() -> dict[str, str]:
+    """Return this process's environment without repository-local git variables."""
+    local = repository_local_git_variables()
+    return {key: value for key, value in os.environ.items() if key not in local}
+
+
 def git(*args: str, root: Path = ROOT) -> subprocess.CompletedProcess[str]:
-    environment = {
-        key: value
-        for key, value in os.environ.items()
-        if key not in REPOSITORY_SELECTING_GIT_VARIABLES
-    }
+    # A replace ref (`git replace`) would show one commit's contents in place
+    # of another's, so reads take every commit as written.
     return subprocess.run(
-        ["git", *args],
+        ["git", "--no-replace-objects", *args],
         cwd=root,
-        env=environment,
+        env=git_environment(),
         capture_output=True,
         text=True,
         check=False,
@@ -234,8 +266,8 @@ FIXTURE_GIT_ENVIRONMENT = {
 
 
 def fixture_git(repository: Path, *args: str) -> str:
-    # Dropping every inherited GIT_* variable keeps a git hook's GIT_DIR or
-    # GIT_INDEX_FILE from aiming these commits at the hook's repository.
+    # Dropping every inherited GIT_* variable keeps a git hook's GIT_INDEX_FILE
+    # or GIT_DIR from aiming these commits at the hook's repository.
     environment = {
         key: value for key, value in os.environ.items() if not key.startswith("GIT_")
     }
@@ -266,6 +298,7 @@ def test_the_pin_scan_reads_a_merged_branch_that_undid_its_pin(tmp_path: Path) -
     repository.mkdir()
     fixture_git(repository, "init", "--quiet", "--initial-branch=main")
     commit_fixture_pin(repository, kept)
+    before_branch = fixture_git(repository, "rev-parse", "HEAD").strip()
     fixture_git(repository, "switch", "--quiet", "--create", "branch")
     commit_fixture_pin(repository, undone)
     commit_fixture_pin(repository, kept)
@@ -275,23 +308,102 @@ def test_the_pin_scan_reads_a_merged_branch_that_undid_its_pin(tmp_path: Path) -
     walked = fixture_git(repository, "rev-list", "HEAD", "--", WORKFLOW.as_posix())
     assert {encoder_pinned_at(each, repository) for each in walked.split()} == {kept}
     assert encoders_pinned_through("HEAD", repository) == {kept, undone}
+    # The scan stops at the commit its caller names.
+    assert encoders_pinned_through(before_branch, repository) == {kept}
 
 
-def test_git_commands_stay_in_their_repository_inside_a_git_hook(
+def test_the_pin_scan_reads_commits_as_written_not_as_replaced(tmp_path: Path) -> None:
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    fixture_git(repository, "init", "--quiet", "--initial-branch=main")
+    commit_fixture_pin(repository, "1" * 40)
+    pinned = fixture_git(repository, "rev-parse", "HEAD").strip()
+    fixture_git(repository, "switch", "--quiet", "--orphan", "replacement")
+    commit_fixture_pin(repository, "2" * 40)
+    fixture_git(repository, "replace", pinned, "HEAD")
+    # Control: a read that follows the replace ref sees the replacement's pin.
+    shown = fixture_git(repository, "show", f"{pinned}:{WORKFLOW.as_posix()}")
+    assert "2" * 40 in shown
+    assert encoders_pinned_through(pinned, repository) == {"1" * 40}
+
+
+def test_git_drops_every_variable_git_lists_as_local_to_a_repository(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    # A git hook exports GIT_DIR and GIT_INDEX_FILE for its own repository.
+    listed = set(fixture_git(tmp_path, "rev-parse", "--local-env-vars").split())
+    # Control: git's list names the variables that aim a command elsewhere.
+    assert {
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_COMMON_DIR",
+        "GIT_DIR",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_SHALLOW_FILE",
+        "GIT_WORK_TREE",
+    } <= listed
+    for variable in listed:
+        monkeypatch.setenv(variable, str(tmp_path / variable))
+    assert not git_environment().keys() & listed
+
+
+def test_git_refuses_to_run_when_git_lists_too_few_local_variables(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def short_list(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+        return subprocess.CompletedProcess(command, 0, stdout="GIT_DIR\n", stderr="")
+
+    monkeypatch.setattr(subprocess, "run", short_list)
+    with pytest.raises(AssertionError, match="omits"):
+        repository_local_git_variables.__wrapped__()
+
+
+# Where each variable that locates a repository points inside a hook, relative
+# to the hook's repository.
+HOOK_REPOSITORY_PATHS = {
+    "GIT_COMMON_DIR": ".git",
+    "GIT_DIR": ".git",
+    "GIT_INDEX_FILE": ".git/index",
+    "GIT_OBJECT_DIRECTORY": ".git/objects",
+    "GIT_WORK_TREE": ".",
+}
+
+
+def repository_state(repository: Path) -> tuple[str, bytes, str]:
+    return (
+        fixture_git(repository, "for-each-ref"),
+        (repository / ".git" / "index").read_bytes(),
+        fixture_git(repository, "count-objects", "-v"),
+    )
+
+
+@pytest.mark.parametrize(
+    "variables",
+    [("GIT_DIR", "GIT_INDEX_FILE"), *((name,) for name in sorted(HOOK_REPOSITORY_PATHS))],
+    ids="+".join,
+)
+def test_git_commands_stay_in_their_repository_inside_a_git_hook(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, variables: tuple[str, ...]
+) -> None:
+    # The hook's repository holds a commit, a pin of its own and a staged file,
+    # so a command that strays into it changes its refs, index or objects, or
+    # reads its pin.
     hook_repository = tmp_path / "hook"
     hook_repository.mkdir()
     fixture_git(hook_repository, "init", "--quiet", "--initial-branch=main")
-    monkeypatch.setenv("GIT_DIR", str(hook_repository / ".git"))
-    monkeypatch.setenv("GIT_INDEX_FILE", str(hook_repository / ".git" / "index"))
+    commit_fixture_pin(hook_repository, "3" * 40)
+    (hook_repository / "staged.txt").write_text("staged\n")
+    fixture_git(hook_repository, "add", "staged.txt")
+    before = repository_state(hook_repository)
+    for variable in variables:
+        monkeypatch.setenv(
+            variable, str(hook_repository / HOOK_REPOSITORY_PATHS[variable])
+        )
     repository = tmp_path / "repository"
     repository.mkdir()
     fixture_git(repository, "init", "--quiet", "--initial-branch=main")
     commit_fixture_pin(repository, "1" * 40)
     assert encoders_pinned_through("HEAD", repository) == {"1" * 40}
-    assert fixture_git(hook_repository, "rev-list", "--all") == ""
+    assert repository_state(hook_repository) == before
 
 
 def write_workflow_pin(root: Path, encoder_ref: str) -> None:
