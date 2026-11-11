@@ -135,7 +135,8 @@ def test_each_skipping_encoder_has_a_recorded_pin() -> None:
 
 
 # git's list must name each of these, or git() refuses to run: each one
-# changes which repository, index, objects or history a git command reads.
+# changes which repository, work tree, index, objects or history a git
+# command uses.
 GIT_VARIABLES_THE_LIST_MUST_NAME = frozenset(
     {
         "GIT_ALTERNATE_OBJECT_DIRECTORIES",
@@ -327,33 +328,53 @@ def test_the_pin_scan_reads_commits_as_written_not_as_replaced(tmp_path: Path) -
     assert encoders_pinned_through(pinned, repository) == {"1" * 40}
 
 
+# The variables these tests expect git's list to name, written out apart from
+# GIT_VARIABLES_THE_LIST_MUST_NAME so that a change to either shows.
+VARIABLES_THAT_AIM_GIT_ELSEWHERE = (
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_DIR",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_SHALLOW_FILE",
+    "GIT_WORK_TREE",
+)
+
+
 def test_git_drops_every_variable_git_lists_as_local_to_a_repository(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     listed = set(fixture_git(tmp_path, "rev-parse", "--local-env-vars").split())
     # Control: git's list names the variables that aim a command elsewhere.
-    assert {
-        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
-        "GIT_COMMON_DIR",
-        "GIT_DIR",
-        "GIT_INDEX_FILE",
-        "GIT_OBJECT_DIRECTORY",
-        "GIT_SHALLOW_FILE",
-        "GIT_WORK_TREE",
-    } <= listed
+    assert set(VARIABLES_THAT_AIM_GIT_ELSEWHERE) <= listed
     for variable in listed:
         monkeypatch.setenv(variable, str(tmp_path / variable))
     assert not git_environment().keys() & listed
 
 
+@pytest.mark.parametrize("missing", VARIABLES_THAT_AIM_GIT_ELSEWHERE)
 def test_git_refuses_to_run_when_git_lists_too_few_local_variables(
-    monkeypatch: pytest.MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch, missing: str
 ) -> None:
-    def short_list(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
-        return subprocess.CompletedProcess(command, 0, stdout="GIT_DIR\n", stderr="")
+    def git_listing(*names: str) -> None:
+        listing = "".join(f"{name}\n" for name in names)
 
-    monkeypatch.setattr(subprocess, "run", short_list)
-    with pytest.raises(AssertionError, match="omits"):
+        def run(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+            return subprocess.CompletedProcess(command, 0, stdout=listing, stderr="")
+
+        monkeypatch.setattr(subprocess, "run", run)
+
+    # Control: a list that names all seven, plus one more, passes.
+    git_listing(*VARIABLES_THAT_AIM_GIT_ELSEWHERE, "GIT_PREFIX")
+    assert repository_local_git_variables.__wrapped__() == {
+        *VARIABLES_THAT_AIM_GIT_ELSEWHERE,
+        "GIT_PREFIX",
+    }
+    git_listing(
+        *(name for name in VARIABLES_THAT_AIM_GIT_ELSEWHERE if name != missing),
+        "GIT_PREFIX",
+    )
+    with pytest.raises(AssertionError, match=f"omits \\['{missing}'\\]"):
         repository_local_git_variables.__wrapped__()
 
 
